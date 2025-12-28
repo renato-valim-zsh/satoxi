@@ -12,7 +12,7 @@ Currently supported features:
 - BIP-39 mnemonic phrase generation and BIP-32 hierarchical deterministic keys
 - Script and smart contract builder for defining locking/unlocking scripts
 - Transaction builder with signing for both legacy and SegWit transactions
-- Full SegWit support including P2WPKH, P2WSH, and P2SH-P2WPKH (nested SegWit)
+- Full SegWit support including `P2WPKH`, `P2WSH`, and `P2SH-P2WPKH` (nested SegWit)
 
 ## Installation
 
@@ -114,7 +114,7 @@ iex> rawtx = Satoxi.Transaction.to_binary(tx, encoding: :hex)
 "0100000001121a9ac1e0..."
 ```
 
-For SegWit transactions, use the P2WPKH or P2SH_P2WPKH contracts:
+For SegWit transactions, use the `P2WPKH` or `P2SH_P2WPKH` contracts:
 
 ```elixir
 iex> alias Satoxi.Contract.P2WPKH
