@@ -74,7 +74,7 @@ iex> mnemonic = Satoxi.Mnemonic.new()
 "taste canvas eternal brain rent cement fat dilemma duty fame floor defy"
 
 iex> seed = Satoxi.Mnemonic.to_seed(mnemonic)
-iex> extkey = Satoxi.Keys.ExtKey.from_seed!(seed)
+iex> extkey = Satoxi.Keys.extkey_from_seed!(seed)
 %Satoxi.Keys.ExtKey{
   chain_code: <<110, 26, 215, 117, 61, 123, 141, 33, ...>>,
   child_index: 0,
@@ -86,7 +86,7 @@ iex> extkey = Satoxi.Keys.ExtKey.from_seed!(seed)
 }
 
 # Derive child key and address
-iex> child = Satoxi.Keys.ExtKey.derive(extkey, "m/0/1")
+iex> child = Satoxi.Keys.extkey_derive(extkey, "m/0/1")
 iex> address = Satoxi.Address.from_pubkey(child.pubkey)
 iex> Satoxi.Address.to_string(address)
 "1Cax2dCtapJZtwzYXCdLuTkZ1egG8JSugA"
@@ -99,7 +99,7 @@ The `Builder` module provides a simple declarative way to build any type of tran
 ```elixir
 iex> alias Satoxi.Contract.P2PKH
 
-iex> utxo = Satoxi.Transaction.UTXO.from_params(utxo_params)
+iex> utxo = Satoxi.Transaction.utxo_from_params!(utxo_params)
 iex> builder = %Satoxi.Transaction.Builder{
 ...>   inputs: [
 ...>     P2PKH.unlock(utxo, %{keypair: keypair})
@@ -109,7 +109,7 @@ iex> builder = %Satoxi.Transaction.Builder{
 ...>   ]
 ...> }
 
-iex> tx = Satoxi.Transaction.Builder.to_tx(builder)
+iex> tx = Satoxi.Transaction.builder_to_tx(builder)
 iex> rawtx = Satoxi.Transaction.to_binary(tx, encoding: :hex)
 "0100000001121a9ac1e0..."
 ```
