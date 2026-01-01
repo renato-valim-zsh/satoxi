@@ -4,12 +4,10 @@ defmodule Satoxi.Encoding.Base58Check do
 
   ## What is Base58Check?
 
-  Base58Check is a binary-to-text encoding scheme used in Bitcoin for legacy
-  addresses and private key exports (WIF format). It includes a 4-byte checksum
-  derived from double SHA-256 hashing, allowing detection of transcription errors.
+  `Base58Check` is a binary-to-text encoding scheme used in Bitcoin for legacy addresses and private key exports (WIF format). 
+  It includes a 4-byte checksum derived from double `SHA-256` hashing, allowing detection of transcription errors.
 
-  The Base58 alphabet was designed for human readability, excluding characters
-  that could be easily confused:
+  The Base58 alphabet was designed for human readability, excluding characters that could be easily confused:
   * `0` (zero), `O` (uppercase o) - easily confused
   * `I` (uppercase i), `l` (lowercase L) - easily confused
   * `+` and `/` - non-alphanumeric characters used in Base64
@@ -20,26 +18,25 @@ defmodule Satoxi.Encoding.Base58Check do
 
   Bitcoin uses version bytes to identify address and key types:
 
-  * `0x00` - Mainnet P2PKH (Pay-to-Public-Key-Hash) addresses (start with `1`)
-  * `0x05` - Mainnet P2SH (Pay-to-Script-Hash) addresses (start with `3`)
-  * `0x6F` - Testnet P2PKH addresses (start with `m` or `n`)
-  * `0xC4` - Testnet P2SH addresses (start with `2`)
+  * `0x00` - Mainnet `P2PKH` (Pay-to-Public-Key-Hash) addresses (start with `1`)
+  * `0x05` - Mainnet `P2SH` (Pay-to-Script-Hash) addresses (start with `3`)
+  * `0x6F` - Testnet `P2PKH` addresses (start with `m` or `n`)
+  * `0xC4` - Testnet `P2SH` addresses (start with `2`)
   * `0x80` - Mainnet WIF private keys (start with `5`, `K`, or `L`)
   * `0xEF` - Testnet WIF private keys (start with `9` or `c`)
 
   ## Legacy vs SegWit
 
-  Base58Check is used for legacy Bitcoin addresses. For SegWit addresses
-  (starting with `bc1` or `tb1`), see `Satoxi.Encoding.Bech32`.
+  `Base58Check` is used for legacy Bitcoin addresses. 
+  For SegWit addresses (starting with `bc1` or `tb1`), see `Satoxi.Encoding.Bech32`.
   """
 
   @alphabet :bitcoin
 
   @doc """
-  Encodes binary data into a Base58Check string with checksum.
+  Encodes binary data into a `Base58Check` string with checksum.
 
-  The checksum is calculated by taking the first 4 bytes of a double SHA-256
-  hash of the data, which is then appended before encoding.
+  The checksum is calculated by taking the first 4 bytes of a double `SHA-256` hash of the data, which is then appended before encoding.
 
   ## Parameters
 
@@ -56,7 +53,7 @@ defmodule Satoxi.Encoding.Base58Check do
   end
 
   @doc """
-  Encodes binary data into a Base58Check string with checksum.
+  Encodes binary data into a `Base58Check` string with checksum.
 
   As `encode/1` but returns the result or raises an exception.
   """
@@ -69,13 +66,13 @@ defmodule Satoxi.Encoding.Base58Check do
   end
 
   @doc """
-  Decodes a Base58Check string and verifies the checksum.
+  Decodes a `Base58Check` string and verifies the checksum.
 
   Returns an error if the checksum is invalid.
 
   ## Parameters
 
-  * `encoded` - The Base58Check encoded string
+  * `encoded` - The `Base58Check` encoded string
 
   ## Examples
 
@@ -88,7 +85,7 @@ defmodule Satoxi.Encoding.Base58Check do
   end
 
   @doc """
-  Decodes a Base58Check string and verifies the checksum.
+  Decodes a `Base58Check` string and verifies the checksum.
 
   As `decode/1` but returns the result or raises an exception.
   """
@@ -101,16 +98,15 @@ defmodule Satoxi.Encoding.Base58Check do
   end
 
   @doc """
-  Encodes binary data with a version byte into a Base58Check string.
+  Encodes binary data with a version byte into a `Base58Check` string.
 
-  The version byte is prepended to the data before encoding. This is the
-  standard format for Bitcoin addresses where the version byte identifies
-  the address type.
+  The version byte is prepended to the data before encoding. 
+  This is the standard format for Bitcoin addresses where the version byte identifies the address type.
 
   ## Parameters
 
   * `data` - The binary data to encode (e.g., public key hash)
-  * `version` - The version byte (e.g., `0x00` for mainnet P2PKH)
+  * `version` - The version byte (e.g., `0x00` for mainnet `P2PKH`)
 
   ## Examples
 
@@ -127,7 +123,7 @@ defmodule Satoxi.Encoding.Base58Check do
   end
 
   @doc """
-  Encodes binary data with a version byte into a Base58Check string.
+  Encodes binary data with a version byte into a `Base58Check` string.
 
   As `encode_version/2` but returns the result or raises an exception.
   """
@@ -140,15 +136,11 @@ defmodule Satoxi.Encoding.Base58Check do
   end
 
   @doc """
-  Decodes a Base58Check string and verifies both checksum and version byte.
-
-  Returns `{:ok, data}` on success, where `data` is the decoded payload
-  without the version byte. Returns an error if the version byte doesn't
-  match the expected version.
+  Decodes a `Base58Check` string and verifies both checksum and version byte.
 
   ## Parameters
 
-  * `encoded` - The Base58Check encoded string
+  * `encoded` - The `Base58Check` encoded string
   * `expected_version` - The expected version byte for verification
 
   ## Examples
@@ -163,7 +155,7 @@ defmodule Satoxi.Encoding.Base58Check do
   end
 
   @doc """
-  Decodes a Base58Check string and verifies both checksum and version byte.
+  Decodes a `Base58Check` string and verifies both checksum and version byte.
 
   As `decode_version/2` but returns the result or raises an exception.
   """

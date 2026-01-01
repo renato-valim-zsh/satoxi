@@ -6,19 +6,19 @@ defmodule Satoxi.Address do
 
   * **Legacy P2PKH** - Addresses starting with `1` (mainnet) or `m`/`n` (testnet)
   * **P2SH** - Addresses starting with `3` (mainnet) or `2` (testnet)
-  * **Native SegWit P2WPKH** - Bech32 addresses starting with `bc1q` (mainnet) or `tb1q` (testnet)
-  * **Native SegWit P2WSH** - Bech32 addresses with 32-byte program
-  * **Nested SegWit** - P2SH-wrapped SegWit for compatibility (BIP-49)
+  * **Native SegWit P2WPKH** - `Bech32` addresses starting with `bc1q` (mainnet) or `tb1q` (testnet)
+  * **Native SegWit P2WSH** - `Bech32` addresses with 32-byte program
+  * **Nested SegWit** - `P2SH`-wrapped SegWit for compatibility (BIP-49)
 
   ## Address Types
 
-  | Name                           | Module              | Format      | Prefix (mainnet) |
-  |--------------------------------|---------------------|-------------|------------------|
-  | Pay-to-Public-Key-Hash         | `Address.Legacy`    | Base58Check | `1`              |
-  | Pay-to-Script-Hash             | `Address.P2SH`      | Base58Check | `3`              |
-  | Pay-to-Witness-Public-Key-Hash | `Address.SegWit`    | Bech32      | `bc1q`           |
-  | Pay-to-Witness-Script-Hash     | `Address.SegWit`    | Bech32      | `bc1q`           |
-  | Nested SegWit (P2SH-P2WPKH)    | `Address.Nested`    | Base58Check | `3`              |
+  | Name                           | Module              | Format        | Prefix (mainnet) |
+  |--------------------------------|---------------------|---------------|------------------|
+  | Pay-to-Public-Key-Hash         | `Address.Legacy`    | `Base58Check` | `1`              |
+  | Pay-to-Script-Hash             | `Address.P2SH`      | `Base58Check` | `3`              |
+  | Pay-to-Witness-Public-Key-Hash | `Address.SegWit`    | `Bech32`      | `bc1q`           |
+  | Pay-to-Witness-Script-Hash     | `Address.SegWit`    | `Bech32`      | `bc1q`           |
+  | Nested SegWit (`P2SH-P2WPKH`)  | `Address.Nested`    | `Base58Check` | `3`              |
 
   ## Usage
 
@@ -48,7 +48,7 @@ defmodule Satoxi.Address do
   @typedoc "Address type identifier"
   @type address_type() :: :p2pkh | :p2sh | :p2wpkh | :p2wsh | :p2sh_p2wpkh
 
-  @typedoc "Bitcoin address string (Base58Check or Bech32 encoded)"
+  @typedoc "Bitcoin address string (`Base58Check` or `Bech32` encoded)"
   @type address_str() :: String.t()
 
   # ============================================================================
@@ -67,14 +67,11 @@ defmodule Satoxi.Address do
 
       iex> pubkey = <<3, 248, 31, 140, 139, 144, 245, 236, 6, 238, 66, 69, 234, 177, 102, 232,
       ...>            175, 144, 63, 199, 58, 109, 215, 54, 54, 104, 126, 240, 39, 135, 10, 190, 57>>
-      iex> address = Satoxi.Address.from_pubkey(pubkey)
-      iex> Satoxi.Address.to_string(address)
+      iex> legacy_address = Satoxi.Address.from_pubkey(pubkey)
+      iex> Satoxi.Address.to_string(legacy_address)
       "18cqNbEBxkAttxcZLuH9LWhZJPd1BNu1A5"
-
-      iex> pubkey = <<3, 248, 31, 140, 139, 144, 245, 236, 6, 238, 66, 69, 234, 177, 102, 232,
-      ...>            175, 144, 63, 199, 58, 109, 215, 54, 54, 104, 126, 240, 39, 135, 10, 190, 57>>
-      iex> address = Satoxi.Address.from_pubkey(pubkey, type: :p2wpkh)
-      iex> Satoxi.Address.to_string(address)
+      iex> segwit_address = Satoxi.Address.from_pubkey(pubkey, type: :p2wpkh)
+      iex> Satoxi.Address.to_string(segwit_address)
       "bc1q2w8az7wghc8j38rnpcemta4r2sd7je50p3spfn"
   """
   @spec from_pubkey(PubKey.t() | binary(), keyword()) :: t()
@@ -91,7 +88,7 @@ defmodule Satoxi.Address do
   @doc """
   Parses an address string and returns the appropriate address struct.
 
-  Automatically detects the address format (Base58Check or Bech32) and type.
+  Automatically detects the address format (`Base58Check` or `Bech32`) and type.
 
   ## Examples
 
@@ -158,9 +155,9 @@ defmodule Satoxi.Address do
   @doc """
   Returns the hash data from an address.
 
-  For P2PKH/P2WPKH addresses, returns the pubkey hash.
-  For P2SH/Nested addresses, returns the script hash.
-  For P2WSH addresses, returns the witness script hash.
+  For `P2PKH`/`P2WPKH` addresses, returns the pubkey hash.
+  For `P2SH`/`Nested` addresses, returns the script hash.
+  For `P2WSH` addresses, returns the witness script hash.
   """
   @spec get_hash(t()) :: binary()
   def get_hash(address) do
@@ -195,14 +192,14 @@ defmodule Satoxi.Address do
   # ============================================================================
 
   @doc """
-  Creates a Legacy P2PKH address from a public key.
+  Creates a Legacy `P2PKH` address from a public key.
 
   See `Satoxi.Address.Legacy.from_pubkey/1` for details.
   """
   defdelegate legacy_from_pubkey(pubkey), to: Legacy, as: :from_pubkey
 
   @doc """
-  Creates a Legacy P2PKH address from a pubkey hash.
+  Creates a Legacy `P2PKH` address from a pubkey hash.
 
   See `Satoxi.Address.Legacy.from_pubkey_hash/1` for details.
   """
@@ -213,14 +210,14 @@ defmodule Satoxi.Address do
   # ============================================================================
 
   @doc """
-  Creates a P2SH address from a script hash.
+  Creates a `P2SH` address from a script hash.
 
   See `Satoxi.Address.P2SH.from_script_hash/1` for details.
   """
   defdelegate p2sh_from_script_hash(hash), to: P2SH, as: :from_script_hash
 
   @doc """
-  Creates a P2SH address from a redeem script.
+  Creates a `P2SH` address from a redeem script.
 
   See `Satoxi.Address.P2SH.from_script/1` for details.
   """
@@ -231,28 +228,28 @@ defmodule Satoxi.Address do
   # ============================================================================
 
   @doc """
-  Creates a P2WPKH address from a public key.
+  Creates a `P2WPKH` address from a public key.
 
   See `Satoxi.Address.SegWit.from_pubkey/1` for details.
   """
   defdelegate segwit_from_pubkey(pubkey), to: SegWit, as: :from_pubkey
 
   @doc """
-  Creates a P2WPKH address from a pubkey hash.
+  Creates a `P2WPKH` address from a pubkey hash.
 
   See `Satoxi.Address.SegWit.from_pubkey_hash/1` for details.
   """
   defdelegate segwit_from_pubkey_hash(hash), to: SegWit, as: :from_pubkey_hash
 
   @doc """
-  Creates a P2WSH address from a witness script hash.
+  Creates a `P2WSH` address from a witness script hash.
 
   See `Satoxi.Address.SegWit.from_witness_script_hash/1` for details.
   """
   defdelegate segwit_from_witness_script_hash(hash), to: SegWit, as: :from_witness_script_hash
 
   @doc """
-  Creates a P2WSH address from a witness script.
+  Creates a `P2WSH` address from a witness script.
 
   See `Satoxi.Address.SegWit.from_witness_script/1` for details.
   """
@@ -263,14 +260,14 @@ defmodule Satoxi.Address do
   # ============================================================================
 
   @doc """
-  Creates a Nested SegWit (P2SH-P2WPKH) address from a public key.
+  Creates a Nested SegWit (`P2SH-P2WPKH`) address from a public key.
 
   See `Satoxi.Address.Nested.from_pubkey/1` for details.
   """
   defdelegate nested_from_pubkey(pubkey), to: Nested, as: :from_pubkey
 
   @doc """
-  Creates a Nested SegWit (P2SH-P2WPKH) address from a pubkey hash.
+  Creates a Nested SegWit (`P2SH-P2WPKH`) address from a pubkey hash.
 
   See `Satoxi.Address.Nested.from_pubkey_hash/1` for details.
   """

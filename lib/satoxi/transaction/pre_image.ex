@@ -29,7 +29,7 @@ defmodule Satoxi.Transaction.PreImage do
 
       # SegWit preimage (BIP-143)
       script_code = PreImage.p2wpkh_script_code(pubkey_hash)
-      preimage = PreImage.segwit(tx, 0, output, script_code: script_code)
+      preimage = PreImage.segwit(tx, 0, output, script_code)
       sighash = Hash.sha256_sha256(preimage)
   """
   alias Satoxi.Hash

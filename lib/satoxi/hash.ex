@@ -38,8 +38,7 @@ defmodule Satoxi.Hash do
     do: hash(data, :sha, opts)
 
   @doc """
-  Computes the HMAC of the of the given input using a secret key and the SHA-1
-  algorithm.
+  Computes the HMAC of the of the given input using a secret key and the SHA-1 algorithm.
 
   ## Examples
 
@@ -70,8 +69,7 @@ defmodule Satoxi.Hash do
     do: hash(data, :sha256, opts)
 
   @doc """
-  Computes the HMAC of the of the given input using a secret key and the SHA-256
-  algorithm.
+  Computes the HMAC of the of the given input using a secret key and the SHA-256 algorithm.
 
   ## Examples
 
@@ -87,8 +85,8 @@ defmodule Satoxi.Hash do
       do: hmac(data, key, :sha256, opts)
 
   @doc """
-  Computes a RIPEMD hash of a SHA-256 hash, outputting 160 bits. This is
-  commonly used inside Bitcoin, particularly for Bitcoin addresses.
+  Computes a RIPEMD hash of a SHA-256 hash, outputting 160 bits. 
+  This is commonly used inside Bitcoin, particularly for Bitcoin addresses.
 
   ## Examples
 
@@ -103,8 +101,8 @@ defmodule Satoxi.Hash do
     do: sha256(data) |> ripemd160(opts)
 
   @doc """
-  Computes a double SHA256 hash. This hash function is commonly used inside
-  Bitcoin, particularly for the hash of a block and the hash of a transaction.
+  Computes a double SHA256 hash. 
+  This hash function is commonly used inside Bitcoin, particularly for the hash of a block and the hash of a transaction.
 
   ## Examples
 
@@ -137,8 +135,7 @@ defmodule Satoxi.Hash do
     do: hash(data, :sha512, opts)
 
   @doc """
-  Computes the HMAC of the of the given input using a secret key and the SHA-512
-  algorithm.
+  Computes the HMAC of the of the given input using a secret key and the SHA-512 algorithm.
 
   ## Examples
 
@@ -161,8 +158,7 @@ defmodule Satoxi.Hash do
     |> encode(encoding)
   end
 
-  # Computes the hmac of the given binary with the key, using the specified
-  # algorithm
+  # Computes the hmac of the given binary with the key, using the specified algorithm
   defp hmac(data, key, alg, opts) do
     encoding = Keyword.get(opts, :encoding)
 

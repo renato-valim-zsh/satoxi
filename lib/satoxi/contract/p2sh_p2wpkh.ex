@@ -1,20 +1,19 @@
 defmodule Satoxi.Contract.P2SH_P2WPKH do
   @moduledoc """
-  Pay to Script Hash - Pay to Witness Public Key Hash (P2SH-P2WPKH) contract.
+  Pay to Script Hash - Pay to Witness Public Key Hash (`P2SH-P2WPKH`) contract.
 
-  P2SH-P2WPKH is a "nested" or "wrapped" SegWit script type that provides
-  backwards compatibility with wallets that don't support native SegWit addresses.
-  The SegWit script is wrapped in a P2SH script.
+  `P2SH-P2WPKH` is a "nested" or "wrapped" SegWit script type that provides backwards compatibility with wallets that don't support native SegWit addresses.
+  The SegWit script is wrapped in a `P2SH` script.
 
-  These addresses begin with "3" on mainnet or "2" on testnet (standard P2SH format).
+  These addresses begin with "3" on mainnet or "2" on testnet (standard `P2SH` format).
 
-  ## Locking script (scriptPubKey)
+  ## Locking script (`scriptPubKey`)
 
-  The locking script is a standard P2SH:
+  The locking script is a standard `P2SH`:
 
       OP_HASH160 <20-byte-script-hash> OP_EQUAL
 
-  Where the script hash is HASH160 of the redeem script: `OP_0 <20-byte-pubkey-hash>`
+  Where the script hash is `HASH160` of the redeem script: `OP_0 <20-byte-pubkey-hash>`
 
   ## Unlocking
 

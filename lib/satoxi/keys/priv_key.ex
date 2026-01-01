@@ -2,17 +2,14 @@ defmodule Satoxi.Keys.PrivKey do
   @moduledoc """
   Functions for generating, parsing, and encoding Bitcoin private keys.
 
-  A private key is a 256-bit number used to sign transactions and derive public
-  keys. This module provides a struct `t:Satoxi.Keys.PrivKey.t/0` that wraps the raw private key
-  binary along with a flag indicating whether the corresponding public key
-  should be compressed.
+  A private key is a 256-bit number used to sign transactions and derive public keys. 
+  This module provides a struct `t:Satoxi.Keys.PrivKey.t/0` that wraps the raw private key binary along with a flag indicating whether the corresponding public key should be compressed.
 
   ## Wallet Import Format (WIF)
 
   WIF is the standard format for representing private keys in Bitcoin wallets.
-  It includes a version byte (network-specific) and a checksum for error
-  detection. Use `from_wif/1` and `to_wif/1` to convert between WIF strings
-  and private key structs.
+  It includes a version byte (network-specific) and a checksum for error detection. 
+  Use `from_wif/1` and `to_wif/1` to convert between WIF strings and private key structs.
 
   ## Examples
 
@@ -44,8 +41,8 @@ defmodule Satoxi.Keys.PrivKey do
   @typedoc """
   Wallet Import Format private key
 
-  WIF encoded keys is a common way to represent private Keys in Bitcoin. WIF
-  encoded keys are shorter and include a built-in error checking and a type byte.
+  WIF encoded keys is a common way to represent private Keys in Bitcoin. 
+  WIF encoded keys are shorter and include a built-in error checking and a type byte.
   """
   @type privkey_wif() :: String.t()
 

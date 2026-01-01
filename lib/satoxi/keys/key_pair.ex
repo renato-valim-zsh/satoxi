@@ -1,7 +1,6 @@
 defmodule Satoxi.Keys.KeyPair do
   @moduledoc """
-  A keypair is a data structure consisting of both a `t:Satoxi.Keys.PrivKey.t/0` and its
-  corresponding `t:Satoxi.Keys.PubKey.t/0`.
+  A keypair is a data structure consisting of both a `t:Satoxi.Keys.PrivKey.t/0` and its corresponding `t:Satoxi.Keys.PubKey.t/0`.
   """
   alias Satoxi.Keys.{PrivKey, PubKey}
 

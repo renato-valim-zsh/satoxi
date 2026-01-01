@@ -4,23 +4,18 @@ defmodule Satoxi.Contract do
 
   A Bitcoin transaction contains two sides: inputs and outputs.
 
-  Transaction outputs are script puzzles, called "locking scripts" (sometimes
-  also known as a "ScriptPubKey") which lock a number of satoshis. Transaction
-  inputs are contain an "unlocking script" (or the "ScriptSig") and unlock the
-  satoshis contained in the previous transaction's outputs.
+  Transaction outputs are script puzzles, called "locking scripts" (sometimes also known as a `ScriptPubKey`) which lock a number of satoshis. 
+  Transaction inputs contain an "unlocking script" (or the `ScriptSig`) and unlock the satoshis contained in the previous transaction's outputs.
 
   Therefore, each locking script is unlocked by a corresponding unlocking script.
 
-  The `Satoxi.Contract` module provides a way to define a locking script and
-  unlocking script in a plain Elixir function. Because it is *just Elixir*, it
-  is trivial to add helper functions and macros to reduce boilerplate and create
-  more complex contract types and scripts.
+  The `Satoxi.Contract` module provides a way to define a locking script and unlocking script in a plain Elixir function. 
+  Because it is *just Elixir*, it is trivial to add helper functions and macros to reduce boilerplate and create more complex contract types and scripts.
 
   ## Defining a contract
 
   The following module implements a Pay to Public Key Hash contract.
-  Implementing a contract is just a case of defining `c:locking_script/2` and
-  `c:unlocking_script/2`.
+  Implementing a contract is just a case of defining `c:locking_script/2` and `c:unlocking_script/2`.
 
       defmodule P2PKH do
         @moduledoc "Pay to Public Key Hash contract."
@@ -46,27 +41,23 @@ defmodule Satoxi.Contract do
 
   ## Locking a contract
 
-  A contract locking script is initiated by calling `lock/2` on the contract
-  module, passing the number of satoshis and a map of parameters expected by
-  `c:locking_script/2` defined in the contract.
+  A contract locking script is initiated by calling `lock/2` on the contract module, passing the number of satoshis and a map of parameters expected by `c:locking_script/2` defined in the contract.
 
       # Initiate the contract locking script
       contract = P2PKH.lock(10_000, %{address: Address.from_pubkey(bob_pubkey)})
 
-      script = Contract.to_script(contract) # returns the locking script
+      script = Contract.to_script(contract)   # returns the locking script
       output = Contract.to_output(contract)   # returns the full output
 
   ## Unlocking a contract
 
-  To unlock and spend the contract, a `t:Satoxi.Transaction.UTXO.t/0` is passed to `unlock/2`
-  with the parameters expected by `c:unlocking_script/2` defined in the contract.
+  To unlock and spend the contract, a `t:Satoxi.Transaction.UTXO.t/0` is passed to `unlock/2` with the parameters expected by `c:unlocking_script/2` defined in the contract.
 
       # Initiate the contract unlocking script
       contract = P2PKH.unlock(utxo, %{keypair: keypair})
 
-  Optionally the current transaction [`context`](`t:Satoxi.Contract.ctx/0`) can be
-  given to the [`contract`](`t:Satoxi.Contract.t/0`). This allows the correct
-  [`sighash`](`t:Satoxi.Transaction.Sig.sighash/0`) to be calculated for any signatures.
+  Optionally the current transaction [`context`](`t:Satoxi.Contract.ctx/0`) can be given to the [`contract`](`t:Satoxi.Contract.t/0`). 
+  This allows the correct [`sighash`](`t:Satoxi.Transaction.Sig.sighash/0`) to be calculated for any signatures.
 
       # Pass the current transaction ctx
       contract = Contract.put_ctx(contract, {tx, vin})
@@ -76,9 +67,7 @@ defmodule Satoxi.Contract do
 
   ## Building transactions
 
-  The `Satoxi.Contract` behaviour is taken advantage of in the `Satoxi.Transaction.Builder`
-  module, resulting in transaction building semantics that are easy to grasp and
-  pleasing to work with.
+  The `Satoxi.Contract` behaviour is taken advantage of in the `Satoxi.Transaction.Builder` module, resulting in transaction building semantics that are easy to grasp and pleasing to work with.
 
       builder = %Satoxi.Transaction.Builder{
         inputs: [
@@ -90,7 +79,7 @@ defmodule Satoxi.Contract do
       }
 
       # Returns a fully signed transaction
-      Satoxi.Transaction.Builder.to_tx(builder)
+      Satoxi.Transaction.builder_to_tx(builder)
 
   For more information, refer to `Satoxi.Transaction.Builder`.
   """
@@ -116,9 +105,7 @@ defmodule Satoxi.Contract do
   @typedoc """
   Transaction context.
 
-  A tuple containing a `t:Satoxi.Transaction.t/0` and [`vin`](`t:Satoxi.Transaction.Input.vin/0`). When
-  attached to a contract, the he correct [`sighash`](`t:Satoxi.Transaction.Sig.sighash/0`) to
-  be calculated for any signatures.
+  A tuple containing a `t:Satoxi.Transaction.t/0` and [`vin`](`t:Satoxi.Transaction.Input.vin/0`). 
   """
   @type ctx() :: {Transaction.t(), non_neg_integer()}
 
@@ -158,37 +145,36 @@ defmodule Satoxi.Contract do
   @doc """
   Callback executed to generate the contract locking script.
 
-  Is passed the [`contract`](`t:Satoxi.Contract.t/0`) and a map of parameters. It
-  must return the updated [`contract`](`t:Satoxi.Contract.t/0`).
+  Is passed the [`contract`](`t:Satoxi.Contract.t/0`) and a map of parameters. 
+  It must return the updated [`contract`](`t:Satoxi.Contract.t/0`).
   """
   @callback locking_script(t(), map()) :: t()
 
   @doc """
   Callback executed to generate the contract unlocking script.
 
-  Is passed the [`contract`](`t:Satoxi.Contract.t/0`) and a map of parameters. It
-  must return the updated [`contract`](`t:Satoxi.Contract.t/0`).
+  Is passed the [`contract`](`t:Satoxi.Contract.t/0`) and a map of parameters. 
+  It must return the updated [`contract`](`t:Satoxi.Contract.t/0`).
   """
   @callback unlocking_script(t(), map()) :: t()
 
   @doc """
   Callback executed to generate the witness stack for SegWit inputs.
 
-  Is passed the [`contract`](`t:Satoxi.Contract.t/0`) and a map of parameters. It
-  must return a list of binaries representing the witness stack items.
+  Is passed the [`contract`](`t:Satoxi.Contract.t/0`) and a map of parameters. 
+  It must return a list of binaries representing the witness stack items.
 
-  This callback is only needed for SegWit contracts (P2WPKH, P2WSH, P2SH-P2WPKH, P2SH-P2WSH).
+  This callback is only needed for SegWit contracts (`P2WPKH`, `P2WSH`, `P2SH-P2WPKH`, `P2SH-P2WSH`).
   """
   @callback witness_script(t(), map()) :: list(binary())
 
   @optional_callbacks unlocking_script: 2, witness_script: 2
 
   @doc """
-  Puts the given [`transaction context`](`t:Satoxi.Contract.ctx/0`) (tx and vin)
-  onto the contract.
+  Puts the given [`transaction context`](`t:Satoxi.Contract.ctx/0`) (tx and vin) onto the contract.
 
-  When the transaction context is attached, the contract can generate valid
-  signatures. If it is not attached, all signatures will be 71 bytes of zeros.
+  When the transaction context is attached, the contract can generate valid signatures. 
+  If it is not attached, all signatures will be 71 bytes of zeros.
   """
   @spec put_ctx(t(), ctx()) :: t()
   def put_ctx(%__MODULE__{} = contract, {%Transaction{} = tx, vin}) when is_integer(vin),
@@ -270,7 +256,7 @@ defmodule Satoxi.Contract do
   # Convenience functions for P2PKH contracts
 
   @doc """
-  Returns a P2PKH locking script contract with the given parameters.
+  Returns a `P2PKH` locking script contract with the given parameters.
 
   Delegates to `Satoxi.Contract.P2PKH.lock/3`.
   """
@@ -278,7 +264,7 @@ defmodule Satoxi.Contract do
   def lock_p2pkh(satoshis, params, opts \\ []), do: P2PKH.lock(satoshis, params, opts)
 
   @doc """
-  Returns a P2PKH unlocking script contract with the given parameters.
+  Returns a `P2PKH` unlocking script contract with the given parameters.
 
   Delegates to `Satoxi.Contract.P2PKH.unlock/3`.
   """
@@ -288,7 +274,7 @@ defmodule Satoxi.Contract do
   # Convenience functions for P2WPKH contracts
 
   @doc """
-  Returns a P2WPKH locking script contract with the given parameters.
+  Returns a `P2WPKH` locking script contract with the given parameters.
 
   Delegates to `Satoxi.Contract.P2WPKH.lock/3`.
   """
@@ -296,7 +282,7 @@ defmodule Satoxi.Contract do
   def lock_p2wpkh(satoshis, params, opts \\ []), do: P2WPKH.lock(satoshis, params, opts)
 
   @doc """
-  Returns a P2WPKH unlocking script contract with the given parameters.
+  Returns a `P2WPKH` unlocking script contract with the given parameters.
 
   Delegates to `Satoxi.Contract.P2WPKH.unlock/3`.
   """
@@ -304,7 +290,7 @@ defmodule Satoxi.Contract do
   def unlock_p2wpkh(utxo, params, opts \\ []), do: P2WPKH.unlock(utxo, params, opts)
 
   @doc """
-  Returns a P2SH_P2WPKH locking script contract with the given parameters.
+  Returns a `P2SH_P2WPKH` locking script contract with the given parameters.
 
   Delegates to `Satoxi.Contract.P2SH_P2WPKH.lock/3`.
   """
@@ -312,7 +298,7 @@ defmodule Satoxi.Contract do
   def lock_p2sh_p2wpkh(satoshis, params, opts \\ []), do: P2SH_P2WPKH.lock(satoshis, params, opts)
 
   @doc """
-  Returns a P2SH_P2WPKH unlocking script contract with the given parameters.
+  Returns a `P2SH_P2WPKH` unlocking script contract with the given parameters.
 
   Delegates to `Satoxi.Contract.P2SH_P2WPKH.unlock/3`.
   """

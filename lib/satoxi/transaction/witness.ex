@@ -1,16 +1,14 @@
 defmodule Satoxi.Transaction.Witness do
   @moduledoc """
-  A Witness is a data structure representing the witness data for a SegWit
-  transaction input.
+  A Witness is a data structure representing the witness data for a SegWit transaction input.
 
-  The witness consists of a list of binary items (stack elements) that provide
-  the data needed to satisfy the spending conditions of a SegWit output.
+  The witness consists of a list of binary items (stack elements) that provide the data needed to satisfy the spending conditions of a SegWit output.
 
-  For P2WPKH inputs, the witness typically contains:
+  For `P2WPKH` inputs, the witness typically contains:
   - A signature
   - A public key
 
-  For P2WSH inputs, the witness contains:
+  For `P2WSH` inputs, the witness contains:
   - Stack elements required by the script
   - The witness script itself
   """

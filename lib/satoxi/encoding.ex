@@ -2,9 +2,11 @@ defmodule Satoxi.Encoding do
   @moduledoc """
   Encoding and decoding utilities for various Bitcoin data formats.
 
-  Supports [Bech32](https://hexdocs.pm/satoxi/Satoxi.Encoding.Bech32.html),
-  [Base58Check](https://hexdocs.pm/satoxi/Satoxi.Encoding.Base58Check.html),
-  [VarInt](https://hexdocs.pm/satoxi/Satoxi.Encoding.VarInt.html),
+  Supports:
+  * [Bech32](https://hexdocs.pm/satoxi/Satoxi.Encoding.Bech32.html)
+  * [Base58Check](https://hexdocs.pm/satoxi/Satoxi.Encoding.Base58Check.html)
+  * [VarInt](https://hexdocs.pm/satoxi/Satoxi.Encoding.VarInt.html)
+
   and other encodings commonly used in Bitcoin applications.
   """
 

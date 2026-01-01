@@ -1,21 +1,14 @@
 defmodule Satoxi.Keys.ExtKey do
   @moduledoc """
-  An ExtKey is a data structure representing a Bitcoin extended key.
+  An `ExtKey` is a data structure representing a Bitcoin extended key.
 
-  An extended key is a private or public key that you can derive new keys from
-  in a hierarchical deterministic wallet. This implements [BIP-32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki).
+  An extended key is a private or public key that you can derive new keys from in a hierarchical deterministic wallet. 
+  This implements [BIP-32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki).
 
-  A master extended key is usually created by passing a `t:Satoxi.Mnemonic.seed/0`
-  to `from_seed/2`. From there, child keys can be derived by passing a
-  `t:Satoxi.Keys.ExtKey.derivation_path/0` to `derive/2`.
+  A master extended key is usually created by passing a `t:Satoxi.Mnemonic.seed/0` to `from_seed/2`. 
+  From there, child keys can be derived by passing a `t:Satoxi.Keys.ExtKey.derivation_path/0` to `derive/2`.
 
-  Extended private keys can be converted to extended public keys. Using a common
-  derivation path, an extended public key can derive the same child public key
-  corresponding to the child private key derived from the corresponding parent
-  extended private key.
-
-  Extended keys can be serialised using `to_string/1`, to make the key easier to
-  store or share.
+  Extended keys can be serialised using `to_string/1`, to make the key easier to store or share.
   """
   alias Satoxi.{Hash, Keys.PrivKey, Keys.PubKey, Mnemonic}
   alias Curvy.Point
@@ -49,8 +42,7 @@ defmodule Satoxi.Keys.ExtKey do
   @typedoc """
   Derivation path
 
-  Derivation paths are used to derive a tree of keys from a common parent known
-  as the master extended key. Paths are of the format:
+  Derivation paths are used to derive a tree of keys from a common parent known as the master extended key. Paths are of the format:
 
       m/child_index[/child_index...]
 
@@ -58,17 +50,13 @@ defmodule Satoxi.Keys.ExtKey do
 
       m/0/1/2'
 
-  The first character `m` represents the master key. A lowercase `m` derives
-  a private extended key, an uppercase `M` derives a public extended key.
+  The first character `m` represents the master key. A lowercase `m` derives a private extended key, an uppercase `M` derives a public extended key.
 
-  The slashes seperate levels in the heirachy and each integer represents the
-  child index in that level. A derivation path can be any number of levels deep
-  meaning a practically limitless structure of private keys can be derived from
-  a single master key.
+  The slashes seperate levels in the heirachy and each integer represents the child index in that level. 
+  A derivation path can be any number of levels deep meaning a practically limitless structure of private keys can be derived from a single master key.
 
-  When a child index is followed by a `'` character, this denotes a hardened
-  child extended private key. It is not possible to derive a hardened child
-  extended public key from the same master key.
+  When a child index is followed by a `'` character, this denotes a hardened child extended private key. 
+  It is not possible to derive a hardened child extended public key from the same master key.
   """
   @type derivation_path() :: String.t()
 
@@ -88,13 +76,13 @@ defmodule Satoxi.Keys.ExtKey do
   defguardp hardened?(index) when index > @mersenne_prime
 
   @doc """
-  Generates and returns a new random `t:Satoxi.ExtKey.t/0`.
+  Generates and returns a new random `t:Satoxi.Keys.ExtKey.t/0`.
   """
   @spec new() :: t()
   def new(), do: from_seed!(:crypto.strong_rand_bytes(64))
 
   @doc """
-  Generates and returns a new `t:Satoxi.ExtKey.t/0` from the given binary seed.
+  Generates and returns a new `t:Satoxi.Keys.ExtKey.t/0` from the given binary seed.
 
   ## Options
 
@@ -146,8 +134,7 @@ defmodule Satoxi.Keys.ExtKey do
   end
 
   @doc """
-  Decodes the given `t:Satoxi.Keys.ExtKey.xprv/0` or `t:Satoxi.Keys.ExtKey.xpub/0` into a
-  `t:Satoxi.Keys.ExtKey.t/0`.
+  Decodes the given `t:Satoxi.Keys.ExtKey.xprv/0` or `t:Satoxi.Keys.ExtKey.xpub/0` into a `t:Satoxi.Keys.ExtKey.t/0`.
 
   ## Examples
 
@@ -255,8 +242,7 @@ defmodule Satoxi.Keys.ExtKey do
   end
 
   @doc """
-  Decodes the given `t:Satoxi.Keys.ExtKey.xprv/0` or `t:Satoxi.Keys.ExtKey.xpub/0` into a
-  `t:Satoxi.Keys.ExtKey.t/0`.
+  Decodes the given `t:Satoxi.Keys.ExtKey.xprv/0` or `t:Satoxi.Keys.ExtKey.xpub/0` into a `t:Satoxi.Keys.ExtKey.t/0`.
 
   As `from_string/1` but returns the result or raises an exception.
   """
@@ -272,8 +258,7 @@ defmodule Satoxi.Keys.ExtKey do
   end
 
   @doc """
-  Converts the given `t:Satoxi.Keys.ExtKey.t/0` into a public extended key by dropping
-  the `t:Satoxi.Keys.PrivKey.t/0` and setting the appropriate version bytes.
+  Converts the given `t:Satoxi.Keys.ExtKey.t/0` into a public extended key by dropping the `t:Satoxi.Keys.PrivKey.t/0` and setting the appropriate version bytes.
   """
   @spec to_public(t()) :: t()
   def to_public(%__MODULE__{} = extkey) do
@@ -282,8 +267,7 @@ defmodule Satoxi.Keys.ExtKey do
   end
 
   @doc """
-  Encodes the given `t:Satoxi.Keys.ExtKey.t/0` into a `t:Satoxi.Keys.ExtKey.xprv/0` or
-  `t:Satoxi.Keys.ExtKey.xpub/0`.
+  Encodes the given `t:Satoxi.Keys.ExtKey.t/0` into a `t:Satoxi.Keys.ExtKey.xprv/0` or `t:Satoxi.Keys.ExtKey.xpub/0`.
 
   ## Examples
 
@@ -327,8 +311,7 @@ defmodule Satoxi.Keys.ExtKey do
   end
 
   @doc """
-  Derives a new `t:Satoxi.Keys.ExtKey.t/0` from the given extended key and
-  `t:Satoxi.ExtKey.derivation_path/0`.
+  Derives a new `t:Satoxi.Keys.ExtKey.t/0` from the given extended key and `t:Satoxi.Keys.ExtKey.derivation_path/0`.
 
   ## Example
 

@@ -2,22 +2,20 @@ defmodule Satoxi.Transaction.Sig do
   @moduledoc """
   Module for signing and verifying Bitcoin transactions.
 
-  Signing a transaction in Bitcoin first involves computing a transaction
-  preimage. A `t:Satoxi.Transaction.PreImage.sighash_flag/0` is used to indicate which parts of the
-  transaction are included in the preimage.
+  Signing a transaction in Bitcoin first involves computing a transaction preimage. 
+  A `t:Satoxi.Transaction.PreImage.sighash_flag/0` is used to indicate which parts of the transaction are included in the preimage.
 
-  | Flag                            | Value                    | Description                         |
-  | ------------------------------- | ------------------------ | ----------------------------------- |
-  | `SIGHASH_ALL`                   | `0x01` / `0000 0001`     | Sign all inputs and outputs         |
-  | `SIGHASH_NONE`                  | `0x02` / `0000 0010`     | Sign all inputs and no outputs      |
-  | `SIGHASH_SINGLE`                | `0x03` / `0000 0011`     | Sign all inputs and single output   |
-  | `SIGHASH_ALL | ANYONECANPAY`    | `0x81` / `1000 0001`     | Sign single input and all outputs   |
-  | `SIGHASH_NONE | ANYONECANPAY`   | `0x82` / `1000 0010`     | Sign single input and no outputs    |
-  | `SIGHASH_SINGLE | ANYONECANPAY` | `0x83` / `1000 0011`     | Sign single input and single output |
+  | Flag                              | Value                    | Description                         |
+  |-----------------------------------|--------------------------|-------------------------------------|
+  | `SIGHASH_ALL`                     | `0x01` / `0000 0001`     | Sign all inputs and outputs         |
+  | `SIGHASH_NONE`                    | `0x02` / `0000 0010`     | Sign all inputs and no outputs      |
+  | `SIGHASH_SINGLE`                  | `0x03` / `0000 0011`     | Sign all inputs and single output   |
+  | `SIGHASH_ALL` / `ANYONECANPAY`    | `0x81` / `1000 0001`     | Sign single input and all outputs   |
+  | `SIGHASH_NONE` / `ANYONECANPAY`   | `0x82` / `1000 0010`     | Sign single input and no outputs    |
+  | `SIGHASH_SINGLE` / `ANYONECANPAY` | `0x83` / `1000 0011`     | Sign single input and single output |
 
-  Once the preimage is constructed, it is double hashed using the `SHA-256`
-  algorithm and then used to calculate the ECDSA signature. The resulting
-  DER-encoded signature is appended with the sighash flag.
+  Once the preimage is constructed, it is double hashed using the `SHA-256` algorithm and then used to calculate the ECDSA signature. 
+  The resulting DER-encoded signature is appended with the sighash flag.
 
   ## Legacy vs SegWit Signing
 
@@ -81,9 +79,8 @@ defmodule Satoxi.Transaction.Sig do
   defdelegate preimage(tx, vin, output, sighash_type), to: PreImage, as: :legacy
 
   @doc """
-  Computes a double SHA256 hash of the preimage of the given transaction. Must
-  also specify the `t:Satoxi.Transaction.Input.vin/0` of the context input, the `t:Satoxi.Transaction.Output.t/0`
-  that is being spent, and the `t:Satoxi.Transaction.PreImage.sighash_flag/0`.
+  Computes a double SHA256 hash of the preimage of the given transaction. 
+  Must also specify the `t:Satoxi.Transaction.Input.vin/0` of the context input, the `t:Satoxi.Transaction.Output.t/0` that is being spent, and the `t:Satoxi.Transaction.PreImage.sighash_flag/0`.
   """
   @spec sighash(Transaction.t(), Input.vin(), Output.t(), PreImage.sighash_flag()) :: sighash()
   def sighash(%Transaction{} = tx, vin, %Output{} = output, sighash_type \\ @default_sighash) do
@@ -93,9 +90,8 @@ defmodule Satoxi.Transaction.Sig do
   end
 
   @doc """
-  Signs the sighash of the given transaction using the given PrivKey. Must also
-  specify the `t:Satoxi.Transaction.Input.vin/0` of the context input, the `t:Satoxi.Transaction.Output.t/0`
-  that is being spent, and the `t:Satoxi.Transaction.PreImage.sighash_flag/0`.
+  Signs the sighash of the given transaction using the given PrivKey. 
+  Must also specify the `t:Satoxi.Transaction.Input.vin/0` of the context input, the `t:Satoxi.Transaction.Output.t/0` that is being spent, and the `t:Satoxi.Transaction.PreImage.sighash_flag/0`.
 
   The returned DER-encoded signature is appended with the sighash flag.
   """
@@ -110,9 +106,8 @@ defmodule Satoxi.Transaction.Sig do
   end
 
   @doc """
-  Verifies the signature against the sighash of the given transaction using the
-  specified PubKey. Must also specify the `t:Satoxi.Transaction.Input.vin/0` of the context
-  input, the `t:Satoxi.Transaction.Output.t/0` that is being spent.
+  Verifies the signature against the sighash of the given transaction using the specified PubKey. 
+  Must also specify the `t:Satoxi.Transaction.Input.vin/0` of the context input, the `t:Satoxi.Transaction.Output.t/0` that is being spent.
   """
   @spec verify(signature(), Transaction.t(), Input.vin(), Output.t(), PubKey.t()) ::
           boolean() | :error
@@ -137,7 +132,7 @@ defmodule Satoxi.Transaction.Sig do
   defdelegate segwit_preimage(tx, vin, output, script_code, opts \\ []), to: PreImage, as: :segwit
 
   @doc """
-  Computes the SegWit sighash (double SHA-256 of the BIP-143 preimage).
+  Computes the SegWit sighash (double `SHA-256` of the BIP-143 preimage).
 
   See `Satoxi.Transaction.PreImage.segwit/5` for details on options.
   """
@@ -210,7 +205,7 @@ defmodule Satoxi.Transaction.Sig do
   end
 
   @doc """
-  Creates the P2PKH-equivalent script code for a P2WPKH input.
+  Creates the `P2PKH`-equivalent script code for a `P2WPKH` input.
 
   Delegates to `Satoxi.Transaction.PreImage.p2wpkh_script_code/1`.
   """

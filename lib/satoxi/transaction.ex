@@ -2,15 +2,13 @@ defmodule Satoxi.Transaction do
   @moduledoc """
   A Transaction is a data structure representing a Bitcoin transaction.
 
-  A Transaction consists of a version number, a list of inputs, list of outputs, and a
-  locktime value.
+  A Transaction consists of a version number, a list of inputs, list of outputs, and a locktime value.
 
-  A Bitcoin transaction is used to transfer custody of Bitcoins. It can also be
-  used for smart contracts, recording and timestamping data, and many other
-  functionalities.
+  A Bitcoin transaction is used to transfer custody of Bitcoins. 
+  It can also be used for smart contracts, recording and timestamping data, and many other functionalities.
 
-  The Transaction module is used for parsing and serialising transaction data. Use the
-  `Satoxi.Transaction.Builder` module for building transactions.
+  The Transaction module is used for parsing and serialising transaction data. 
+  Use the `Satoxi.Transaction.Builder` module for building transactions.
 
   ## Transaction Layouts
 
@@ -75,9 +73,8 @@ defmodule Satoxi.Transaction do
       |   Lock Time    |            4 bytes               |
       +----------------+----------------------------------+
 
-  The marker (0x00) and flag (0x01) bytes distinguish SegWit transactions from
-  legacy ones. The witness data appears after all outputs and before the locktime,
-  with one witness stack per input.
+  The marker (0x00) and flag (0x01) bytes distinguish SegWit transactions from legacy ones. 
+  The witness data appears after all outputs and before the locktime, with one witness stack per input.
   """
   alias Satoxi.{Contract, Hash, Serializable}
   alias Satoxi.Transaction.{Builder, OutPoint, Input, Output, UTXO, Witness}
@@ -133,11 +130,9 @@ defmodule Satoxi.Transaction do
   @doc """
   Adds an input to a transaction or builder.
 
-  When given a `t:Satoxi.Transaction.t/0` and `t:Satoxi.Transaction.Input.t/0`, adds the input
-  to the transaction.
+  When given a `t:Satoxi.Transaction.t/0` and `t:Satoxi.Transaction.Input.t/0`, adds the input to the transaction.
 
-  When given a `t:Satoxi.Transaction.Builder.t/0` and `t:Satoxi.Contract.t/0`, delegates to
-  `Satoxi.Transaction.Builder.add_input/2`.
+  When given a `t:Satoxi.Transaction.Builder.t/0` and `t:Satoxi.Contract.t/0`, delegates to `Satoxi.Transaction.Builder.add_input/2`.
   """
   @spec add_input(t(), Input.t()) :: t()
   @spec add_input(Builder.t(), Contract.t()) :: Builder.t()
@@ -152,11 +147,9 @@ defmodule Satoxi.Transaction do
   @doc """
   Adds an output to a transaction or builder.
 
-  When given a `t:Satoxi.Transaction.t/0` and `t:Satoxi.Transaction.Output.t/0`, adds the output
-  to the transaction.
+  When given a `t:Satoxi.Transaction.t/0` and `t:Satoxi.Transaction.Output.t/0`, adds the output to the transaction.
 
-  When given a `t:Satoxi.Transaction.Builder.t/0` and `t:Satoxi.Contract.t/0`, delegates to
-  `Satoxi.Transaction.Builder.add_output/2`.
+  When given a `t:Satoxi.Transaction.Builder.t/0` and `t:Satoxi.Contract.t/0`, delegates to `Satoxi.Transaction.Builder.add_output/2`.
   """
   @spec add_output(t(), Output.t()) :: t()
   @spec add_output(Builder.t(), Contract.t()) :: Builder.t()
@@ -169,8 +162,7 @@ defmodule Satoxi.Transaction do
     do: Builder.add_output(builder, output)
 
   @doc """
-  Returns true if the given `t:Satoxi.Transaction.t/0` is a coinbase transaction (the first
-  transaction in a block, containing the miner block reward).
+  Returns true if the given `t:Satoxi.Transaction.t/0` is a coinbase transaction (the first transaction in a block, containing the miner block reward).
   """
   @spec is_coinbase?(t()) :: boolean()
   def is_coinbase?(%__MODULE__{inputs: [input]}),
@@ -226,8 +218,8 @@ defmodule Satoxi.Transaction do
   @doc """
   Returns the `t:Satoxi.Transaction.hash/0` of the given transaction.
 
-  For SegWit transactions, this returns the hash of the non-witness serialization
-  (the TXID hash). Use `get_witness_hash/1` for the witness-inclusive hash.
+  For SegWit transactions, this returns the hash of the non-witness serialization (the TXID hash). 
+  Use `get_witness_hash/1` for the witness-inclusive hash.
   """
   @spec get_hash(t()) :: hash()
   def get_hash(%__MODULE__{} = tx) do

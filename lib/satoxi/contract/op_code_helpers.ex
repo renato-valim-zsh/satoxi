@@ -3,7 +3,6 @@ defmodule Satoxi.Contract.OpCodeHelpers do
   Helper module for using Op Codes in `Satoxi.Contract` modules.
 
   All known Op Codes are available as a function which simply pushes the Op Code word onto the Contract Script. 
-  Refer to `Satoxi.VM` for descriptions of each Op Code.
   """
   alias Satoxi.Contract
   alias Satoxi.Script.OpCode

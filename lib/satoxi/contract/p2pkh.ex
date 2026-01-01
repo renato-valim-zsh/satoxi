@@ -2,8 +2,8 @@ defmodule Satoxi.Contract.P2PKH do
   @moduledoc """
   Pay to Public Key Hash contract.
 
-  P2PKH scripts are used to lock Bitcoin to an [`legacy address`](`t:Satoxi.Address.Legacy.t/0`).
-  The Bitcoin can later be unlocked using the private key corresponding to the address.
+  `P2PKH` scripts are used to lock satoshis to a [`legacy address`](`t:Satoxi.Address.Legacy.t/0`).
+  The satoshis can later be unlocked using the private key corresponding to the address.
 
   ## Lock parameters
 

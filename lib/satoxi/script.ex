@@ -2,16 +2,13 @@ defmodule Satoxi.Script do
   @moduledoc """
   Module for parsing, serialising and building Scripts.
 
-  Script is the scripting language built into Bitcoin. Transaction outputs each
-  contain a "locking script" which lock a number of satoshis. Transaction inputs
-  contain an "unlocking script" which unlock the satoshis contained in a
-  previous output. Both the unlocking script and previous locking script are
-  concatenated in the following order:
+  Script is the scripting language built into Bitcoin. Transaction outputs each contain a "locking script" which lock a number of satoshis. 
+  Transaction inputs contain an "unlocking script" which unlock the satoshis contained in a previous output. 
+  Both the unlocking script and previous locking script are concatenated in the following order:
 
       unlocking_script <> locking_script
 
-  The entire script is evaluated and if it returns a truthy value, the output is
-  unlocked and spent.
+  The entire script is evaluated and if it returns a truthy value, the output is unlocked and spent.
   """
   alias Satoxi.Script.{OpCode, ScriptNum}
   import Satoxi.Encoding, only: [decode: 2, decode!: 2, encode: 2]
@@ -144,8 +141,8 @@ defmodule Satoxi.Script do
   @doc """
   Pushes a chunk into the `t:Satoxi.Script.t/0`.
 
-  The chunk can be any binary value, `t:Satoxi.OpCode.t/0` or `t:integer/0`.
-  Integer values will be encoded as a `t:Satoxi.ScriptNum.t/0`.
+  The chunk can be any binary value, `t:Satoxi.Script.OpCode.t/0` or `t:integer/0`.
+  Integer values will be encoded as a `t:Satoxi.Script.ScriptNum.t/0`.
 
   ## Examples
 

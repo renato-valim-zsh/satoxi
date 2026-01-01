@@ -1,17 +1,17 @@
 defmodule Satoxi.Address.SegWit do
   @moduledoc """
-  Native SegWit Bitcoin addresses (P2WPKH and P2WSH).
+  Native SegWit Bitcoin addresses (`P2WPKH` and `P2WSH`).
 
-  These addresses use Bech32 encoding and start with:
+  These addresses use `Bech32` encoding and start with:
   - `bc1q` on mainnet (witness version 0)
   - `tb1q` on testnet (witness version 0)
 
   ## Address Types
 
-  | Type   | Program Size | Description                    |
-  |--------|--------------|--------------------------------|
-  | P2WPKH | 20 bytes     | Pay-to-Witness-Public-Key-Hash |
-  | P2WSH  | 32 bytes     | Pay-to-Witness-Script-Hash     |
+  | Type     | Program Size | Description                    |
+  |----------|--------------|--------------------------------|
+  | `P2WPKH` | 20 bytes     | Pay-to-Witness-Public-Key-Hash |
+  | `P2WSH`  | 32 bytes     | Pay-to-Witness-Script-Hash     |
 
   ## Examples
 
@@ -41,7 +41,7 @@ defmodule Satoxi.Address.SegWit do
   }
 
   @doc """
-  Creates a P2WPKH address from a public key.
+  Creates a `P2WPKH` address from a public key.
 
   ## Examples
 
@@ -71,7 +71,7 @@ defmodule Satoxi.Address.SegWit do
   end
 
   @doc """
-  Creates a P2WPKH address from a pubkey hash.
+  Creates a `P2WPKH` address from a pubkey hash.
 
   ## Examples
 
@@ -90,9 +90,9 @@ defmodule Satoxi.Address.SegWit do
   end
 
   @doc """
-  Creates a P2WSH address from a witness script hash.
+  Creates a `P2WSH` address from a witness script hash.
 
-  The script_hash should be the SHA256 hash of the witness script (32 bytes).
+  The script_hash should be the `SHA256` hash of the witness script (32 bytes).
 
   ## Examples
 
@@ -113,9 +113,9 @@ defmodule Satoxi.Address.SegWit do
   end
 
   @doc """
-  Creates a P2WSH address from a witness script.
+  Creates a `P2WSH` address from a witness script.
 
-  Computes the SHA256 of the script and creates the address.
+  Computes the `SHA256` of the script and creates the address.
 
   ## Examples
 
@@ -136,9 +136,7 @@ defmodule Satoxi.Address.SegWit do
   end
 
   @doc """
-  Decodes a Bech32 encoded SegWit address string.
-
-  Returns `{:ok, address}` or `{:error, reason}`.
+  Decodes a `Bech32` encoded SegWit address string.
 
   ## Examples
 
@@ -177,7 +175,7 @@ defmodule Satoxi.Address.SegWit do
   end
 
   @doc """
-  Decodes a Bech32 encoded SegWit address string.
+  Decodes a `Bech32` encoded SegWit address string.
 
   As `from_string/1` but returns the result or raises an exception.
   """
@@ -190,7 +188,7 @@ defmodule Satoxi.Address.SegWit do
   end
 
   @doc """
-  Encodes the address to a Bech32 string.
+  Encodes the address to a `Bech32` string.
   """
   @spec to_string(t()) :: String.t()
   def to_string(%__MODULE__{witness_program: program, witness_version: 0}) do
@@ -205,14 +203,14 @@ defmodule Satoxi.Address.SegWit do
   def get_witness_program(%__MODULE__{witness_program: program}), do: program
 
   @doc """
-  Returns true if this is a P2WPKH address.
+  Returns true if this is a `P2WPKH` address.
   """
   @spec p2wpkh?(t()) :: boolean()
   def p2wpkh?(%__MODULE__{type: :p2wpkh}), do: true
   def p2wpkh?(_), do: false
 
   @doc """
-  Returns true if this is a P2WSH address.
+  Returns true if this is a `P2WSH` address.
   """
   @spec p2wsh?(t()) :: boolean()
   def p2wsh?(%__MODULE__{type: :p2wsh}), do: true

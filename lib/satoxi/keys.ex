@@ -2,9 +2,7 @@ defmodule Satoxi.Keys do
   @moduledoc """
   Key generation, parsing, and encoding utilities for Bitcoin private and public keys.
 
-  Supports [PrivKey](https://hexdocs.pm/satoxi/Satoxi.Keys.PrivKey.html),
-  [PubKey](https://hexdocs.pm/satoxi/Satoxi.Keys.PubKey.html) and [ExtKey](https://hexdocs.pm/satoxi/Satoxi.Keys.ExtKey.html) operations commonly
-  used in Bitcoin applications.
+  Supports [PrivKey](https://hexdocs.pm/satoxi/Satoxi.Keys.PrivKey.html), [PubKey](https://hexdocs.pm/satoxi/Satoxi.Keys.PubKey.html) and [ExtKey](https://hexdocs.pm/satoxi/Satoxi.Keys.ExtKey.html) operations commonly used in Bitcoin applications.
   """
 
   # ============================================================================

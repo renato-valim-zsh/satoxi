@@ -85,7 +85,7 @@ defmodule Satoxi.Transaction.Builder do
   end
 
   @doc """
-  Sorts the TransactionBuilder inputs and outputs according to [BIP-69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki).
+  Sorts the Transaction Builder inputs and outputs according to [BIP-69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki).
 
   BIP-69 defines deterministic lexographical indexing of transaction inputs and outputs.
   """

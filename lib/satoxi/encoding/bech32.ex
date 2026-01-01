@@ -4,38 +4,26 @@ defmodule Satoxi.Encoding.Bech32 do
 
   ## What is Bech32?
 
-  Bech32 is a checksummed base32 encoding format defined in
-  [BIP-0173](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki).
-  It was designed specifically for Bitcoin's Segregated Witness (SegWit)
-  addresses and offers several advantages over the legacy Base58Check encoding
-  used in traditional Bitcoin addresses.
+  `Bech32` is a checksummed base32 encoding format defined in [BIP-0173](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki).
+  It was designed specifically for Bitcoin's Segregated Witness (SegWit) addresses and offers several advantages over the legacy `Base58Check` encoding used in traditional Bitcoin addresses.
 
   ## Why Bech32 for Bitcoin?
 
-  Bech32 was introduced to solve practical problems with Base58Check addresses:
+  `Bech32` was introduced to solve practical problems with `Base58Check` addresses:
 
-  * **Error detection** - Uses a BCH code that can detect up to 4 errors and
-    locate up to 2 errors in addresses up to 89 characters. This is significantly
-    more robust than Base58Check's simple checksum.
+  * **Error detection** - Uses a `BCH` code that can detect up to 4 errors and locate up to 2 errors in addresses up to 89 characters. 
+    This is significantly more robust than `Base58Check`'s simple checksum.
 
-  * **Case insensitivity** - Uses only lowercase letters (or uppercase, but not
-    mixed), eliminating transcription errors caused by confusing similar-looking
-    characters like `1`/`l`/`I` or `0`/`O`.
+  * **Case insensitivity** - Uses only lowercase letters (or uppercase, but not mixed), eliminating transcription errors caused by confusing similar-looking characters like `1`/`l`/`I` or `0`/`O`.
 
-  * **QR code efficiency** - When encoded in uppercase, Bech32 addresses use
-    alphanumeric QR mode, resulting in ~45% smaller QR codes compared to
-    Base58Check addresses.
+  * **QR code efficiency** - When encoded in uppercase, `Bech32` addresses use alphanumeric QR mode, resulting in ~45% smaller QR codes compared to `Base58Check` addresses.
 
-  * **Human readable prefix** - Addresses start with a clear prefix (`bc1` for
-    mainnet, `tb1` for testnet) making it easy to identify the network and
-    address type.
+  * **Human readable prefix** - Addresses start with a clear prefix (`bc1` for mainnet, `tb1` for testnet) making it easy to identify the network and address type.
 
   ## Bech32 vs Bech32m
 
-  Bech32m is a modified version of Bech32 defined in
-  [BIP-0350](https://github.com/bitcoin/bips/blob/master/bip-0350.mediawiki).
-  It fixes a weakness in Bech32 where inserting or deleting `q` characters
-  before a final `p` could sometimes go undetected.
+  `Bech32m` is a modified version of Bech32 defined in [BIP-0350](https://github.com/bitcoin/bips/blob/master/bip-0350.mediawiki).
+  It fixes a weakness in Bech32 where inserting or deleting `q` characters before a final `p` could sometimes go undetected.
 
   * **Bech32** - Used for SegWit v0 (witness version 0)
   * **Bech32m** - Used for SegWit v1+ (Taproot and future versions)
@@ -52,7 +40,7 @@ defmodule Satoxi.Encoding.Bech32 do
           {hrp :: String.t(), witness_version :: non_neg_integer(), witness_program :: binary()}
 
   @doc """
-  Encodes a witness program into a Bech32 address.
+  Encodes a witness program into a `Bech32` address.
 
   ## Parameters
 
@@ -74,7 +62,7 @@ defmodule Satoxi.Encoding.Bech32 do
   end
 
   @doc """
-  Encodes a witness program into a Bech32 address.
+  Encodes a witness program into a `Bech32` address.
 
   As `encode/2` but returns the result or raises an exception.
   """
@@ -87,7 +75,7 @@ defmodule Satoxi.Encoding.Bech32 do
   end
 
   @doc """
-  Encodes a witness program into a Bech32m address.
+  Encodes a witness program into a `Bech32m` address.
 
   ## Parameters
 
@@ -109,7 +97,7 @@ defmodule Satoxi.Encoding.Bech32 do
   end
 
   @doc """
-  Encodes a witness program into a Bech32m address.
+  Encodes a witness program into a `Bech32m` address.
 
   As `encode_m/2` but returns the result or raises an exception.
   """
@@ -122,9 +110,7 @@ defmodule Satoxi.Encoding.Bech32 do
   end
 
   @doc """
-  Decodes a Bech32/Bech32m address into its components.
-
-  Returns `{:ok, {hrp, witness_version, witness_program}}` on success.
+  Decodes a `Bech32`/`Bech32m` address into its components.
 
   ## Examples
 
@@ -137,7 +123,7 @@ defmodule Satoxi.Encoding.Bech32 do
   end
 
   @doc """
-  Decodes a Bech32/Bech32m address into its components.
+  Decodes a `Bech32`/`Bech32m` address into its components.
 
   As `decode/1` but returns the result or raises an exception.
   """

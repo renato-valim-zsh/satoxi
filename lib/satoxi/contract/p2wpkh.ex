@@ -1,9 +1,9 @@
 defmodule Satoxi.Contract.P2WPKH do
   @moduledoc """
-  Pay to Witness Public Key Hash (P2WPKH) contract.
+  Pay to Witness Public Key Hash (`P2WPKH`) contract.
 
-  P2WPKH is a native SegWit script type that locks Bitcoin to a public key hash.
-  The witness program is a 20-byte public key hash, and the unlocking data (signature and public key) goes into the witness field rather than the scriptSig.
+  `P2WPKH` is a native SegWit script type that locks Bitcoin to a public key hash.
+  The witness program is a 20-byte public key hash, and the unlocking data (signature and public key) goes into the witness field rather than the `scriptSig`.
 
   Native SegWit addresses begin with "bc1q" on mainnet or "tb1q" on testnet.
 
@@ -15,7 +15,7 @@ defmodule Satoxi.Contract.P2WPKH do
 
   ## Unlocking
 
-  For P2WPKH, the scriptSig is empty. The witness contains:
+  For `P2WPKH`, the `scriptSig` is empty. The witness contains:
 
       [signature, pubkey]
 

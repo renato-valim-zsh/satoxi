@@ -1,7 +1,6 @@
 defprotocol Satoxi.Serializable do
   @moduledoc """
-  A protocol module specifying an API for parsing and serializing Binary data
-  into Bitcoin objects.
+  A protocol module specifying an API for parsing and serializing Binary data into Bitcoin objects.
   """
 
   @doc """

@@ -2,9 +2,8 @@ defmodule Satoxi.Keys.PubKey do
   @moduledoc """
   A PubKey is a data structure representing a Bitcoin public key.
 
-  Internally, a public key is the `x` and `y` coordiantes of a point of the
-  `secp256k1` curve. It is derived by performaing elliptic curve multiplication
-  on a corresponding private key.
+  Internally, a public key is the `x` and `y` coordiantes of a point of the `secp256k1` curve. 
+  It is derived by performaing elliptic curve multiplication on a corresponding private key.
   """
   alias Satoxi.Keys.PrivKey
   alias Curvy.{Key, Point}

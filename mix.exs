@@ -4,7 +4,7 @@ defmodule Satoxi.MixProject do
   def project do
     [
       app: :satoxi,
-      version: "1.0.0",
+      version: "1.0.1",
       elixir: "~> 1.18",
       name: "Satoxi",
       description: "Toolbox for building bitcoin applications",

@@ -4,8 +4,7 @@ defmodule Satoxi do
 
   ## Configuration
 
-  Optionally, Satoxi can be configured for testnet network by editing your
-  application's configuration:
+  Optionally, Satoxi can be configured for testnet network by editing your application's configuration:
 
   ```elixir
   config :satoxi,

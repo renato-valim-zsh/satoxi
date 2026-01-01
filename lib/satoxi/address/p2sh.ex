@@ -1,10 +1,9 @@
 defmodule Satoxi.Address.P2SH do
   @moduledoc """
-  P2SH (Pay-to-Script-Hash) Bitcoin addresses.
+  `P2SH` (Pay-to-Script-Hash) Bitcoin addresses.
 
   These addresses start with `3` on mainnet or `2` on testnet.
-  They use Base58Check encoding and allow spending to the hash of a script,
-  enabling complex spending conditions like multisig.
+  They use `Base58Check` encoding and allow spending to the hash of a script, enabling complex spending conditions like multisig.
 
   ## Examples
 
@@ -17,7 +16,7 @@ defmodule Satoxi.Address.P2SH do
 
   defstruct [:script_hash]
 
-  @typedoc "P2SH address"
+  @typedoc "`P2SH` address"
   @type t() :: %__MODULE__{
           script_hash: binary()
         }
@@ -28,9 +27,9 @@ defmodule Satoxi.Address.P2SH do
   }
 
   @doc """
-  Creates a P2SH address from a script hash.
+  Creates a `P2SH` address from a script hash.
 
-  The script_hash should be the HASH160 (SHA256 + RIPEMD160) of the redeem script.
+  The script_hash should be the `HASH160` (`SHA256` + `RIPEMD160`) of the redeem script.
 
   ## Examples
 
@@ -45,9 +44,9 @@ defmodule Satoxi.Address.P2SH do
   end
 
   @doc """
-  Creates a P2SH address from a redeem script.
+  Creates a `P2SH` address from a redeem script.
 
-  Computes the HASH160 of the script and creates the address.
+  Computes the `HASH160` of the script and creates the address.
 
   ## Examples
 
@@ -63,9 +62,7 @@ defmodule Satoxi.Address.P2SH do
   end
 
   @doc """
-  Decodes a Base58Check encoded P2SH address string.
-
-  Returns `{:ok, address}` or `{:error, reason}`.
+  Decodes a `Base58Check` encoded `P2SH` address string.
 
   ## Examples
 
@@ -94,7 +91,7 @@ defmodule Satoxi.Address.P2SH do
   end
 
   @doc """
-  Decodes a Base58Check encoded P2SH address string.
+  Decodes a `Base58Check` encoded `P2SH` address string.
 
   As `from_string/1` but returns the result or raises an exception.
   """
@@ -107,7 +104,7 @@ defmodule Satoxi.Address.P2SH do
   end
 
   @doc """
-  Encodes the address to a Base58Check string.
+  Encodes the address to a `Base58Check` string.
   """
   @spec to_string(t()) :: String.t()
   def to_string(%__MODULE__{script_hash: script_hash}) do

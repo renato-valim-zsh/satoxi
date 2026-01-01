@@ -1,10 +1,8 @@
 defmodule Satoxi.Mnemonic do
   @moduledoc """
-  A Mnemonic is a string of words representing a large randomly generated
-  number, making it easier for humans to store.
+  A Mnemonic is a string of words representing a large randomly generated number, making it easier for humans to store.
 
-  The words are converted to a `t:Satoxi.Mnemonic.seed/0` which are used to
-  create a new `t:Satoxi.Keys.ExtKey.t/0`.
+  The words are converted to a `t:Satoxi.Mnemonic.seed/0` which are used to create a new `t:Satoxi.Keys.ExtKey.t/0`.
 
   This module implements [BIP-39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
   """
@@ -33,8 +31,7 @@ defmodule Satoxi.Mnemonic do
   @rounds 2048
 
   @doc """
-  Generates and returns a new random `t:Satoxi.Mnemonic.t/0` of the specified
-  `t:Satoxi.Mnemonic.entropy_length/0`.
+  Generates and returns a new random `t:Satoxi.Mnemonic.t/0` of the specified `t:Satoxi.Mnemonic.entropy_length/0`.
   """
   @spec new(entropy_length()) :: t()
   def new(entropy_bits \\ 128) when entropy_bits in @allowed_lengths do
@@ -65,11 +62,9 @@ defmodule Satoxi.Mnemonic do
   end
 
   @doc """
-  Converts the given `t:Satoxi.Mnemonic.t/0` into a `t:Satoxi.Mnemonic.seed/0` used
-  to create an extended master key.
+  Converts the given `t:Satoxi.Mnemonic.t/0` into a `t:Satoxi.Mnemonic.seed/0` used to create an extended master key.
 
-  Optionally a passphrase (sometimes known as the 13th or 25th word) can be
-  added to the mnemonic to modify the returned seed.
+  Optionally a passphrase (sometimes known as the 13th or 25th word) can be added to the mnemonic to modify the returned seed.
 
   ## Options
 

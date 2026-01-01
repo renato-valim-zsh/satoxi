@@ -1,9 +1,9 @@
 defmodule Satoxi.Transaction.UTXO do
   @moduledoc """
-  A UTXO is a data structure representing an unspent transaction output.
+  An UTXO is a data structure representing an unspent transaction output.
 
-  A UTXO consists of a `t:Satoxi.Transaction.OutPoint.t/0` and the `t:Satoxi.Transaction.Output.t/0` itself.
-  UTXOs are used in the `Satoxi.Transaction.Builder` module to create transaction inputs.
+  An UTXO consists of a `t:Satoxi.Transaction.OutPoint.t/0` and the `t:Satoxi.Transaction.Output.t/0` itself.
+  UTXOs are used in the `t:Satoxi.Transaction.Builder.t/0` module to create transaction inputs.
   """
   alias Satoxi.Transaction.OutPoint
   alias Satoxi.Script
@@ -22,8 +22,7 @@ defmodule Satoxi.Transaction.UTXO do
         }
 
   @doc """
-  Builds a `t:Satoxi.Transaction.UTXO.t/0` from the given map of params. Useful for building
-  UTXO's from JSON APIs.
+  Builds a `t:Satoxi.Transaction.UTXO.t/0` from the given map of params. Useful for building UTXO's from JSON APIs.
 
   ## Params
 
@@ -88,9 +87,8 @@ defmodule Satoxi.Transaction.UTXO do
   end
 
   @doc """
-  Builds a `t:Satoxi.Transaction.UTXO.t/0` from the given transaction and vout index. Useful
-  for building UTXO's when you already have the full transaction being spent
-  from.
+  Builds a `t:Satoxi.Transaction.UTXO.t/0` from the given transaction and vout index. 
+  Useful for building UTXO's when you already have the full transaction being spent from.
   """
   @spec from_tx(Transaction.t(), Output.vout()) :: t() | nil
   def from_tx(%Transaction{outputs: outputs} = tx, vout) when vout < length(outputs) do

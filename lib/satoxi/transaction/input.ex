@@ -42,7 +42,7 @@ defmodule Satoxi.Transaction.Input do
   @type vin() :: non_neg_integer()
 
   @doc """
-  Parses the given binary into a `t:Satoxi.Input.t/0`.
+  Parses the given binary into a `t:Satoxi.Transaction.Input.t/0`.
 
   ## Options
 
@@ -77,7 +77,7 @@ defmodule Satoxi.Transaction.Input do
   end
 
   @doc """
-  Returns the number of bytes of the given `t:Satoxi.Input.t/0`.
+  Returns the number of bytes of the given `t:Satoxi.Transaction.Input.t/0`.
   """
   @spec get_size(t()) :: non_neg_integer()
   def get_size(%__MODULE__{} = input),
@@ -105,7 +105,7 @@ defmodule Satoxi.Transaction.Input do
     do: Witness.get_size(witness)
 
   @doc """
-  Serialises the given `t:Satoxi.Input.t/0` into a binary.
+  Serialises the given `t:Satoxi.Transaction.Input.t/0` into a binary.
 
   ## Options
 

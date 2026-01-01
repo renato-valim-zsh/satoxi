@@ -1,23 +1,23 @@
 defmodule Satoxi.Address.Legacy do
   @moduledoc """
-  Legacy P2PKH (Pay-to-Public-Key-Hash) Bitcoin addresses.
+  Legacy `P2PKH` (Pay-to-Public-Key-Hash) Bitcoin addresses.
 
   These addresses start with `1` on mainnet or `m`/`n` on testnet.
-  They use Base58Check encoding and were the original Bitcoin address format.
+  They use `Base58Check` encoding and were the original Bitcoin address format.
 
   ## Examples
 
       iex> pubkey = <<3, 248, 31, 140, 139, 144, 245, 236, 6, 238, 66, 69, 234, 177, 102, 232,
       ...>            175, 144, 63, 199, 58, 109, 215, 54, 54, 104, 126, 240, 39, 135, 10, 190, 57>>
       iex> address = Satoxi.Address.Legacy.from_pubkey(pubkey)
-      iex> Satoxi.Address.Encoding.to_string(address)
+      iex> Satoxi.Address.to_string(address)
       "18cqNbEBxkAttxcZLuH9LWhZJPd1BNu1A5"
   """
   alias Satoxi.{Hash, Keys.PubKey}
 
   defstruct [:pubkey_hash]
 
-  @typedoc "Legacy P2PKH address"
+  @typedoc "Legacy `P2PKH` address"
   @type t() :: %__MODULE__{
           pubkey_hash: binary()
         }
@@ -28,7 +28,7 @@ defmodule Satoxi.Address.Legacy do
   }
 
   @doc """
-  Creates a Legacy P2PKH address from a public key.
+  Creates a Legacy `P2PKH` address from a public key.
 
   ## Examples
 
@@ -51,7 +51,7 @@ defmodule Satoxi.Address.Legacy do
   end
 
   @doc """
-  Creates a Legacy P2PKH address from a pubkey hash.
+  Creates a Legacy `P2PKH` address from a pubkey hash.
 
   ## Examples
 
@@ -66,9 +66,7 @@ defmodule Satoxi.Address.Legacy do
   end
 
   @doc """
-  Decodes a Base58Check encoded Legacy address string.
-
-  Returns `{:ok, address}` or `{:error, reason}`.
+  Decodes a `Base58Check` encoded Legacy address string.
 
   ## Examples
 
@@ -96,7 +94,7 @@ defmodule Satoxi.Address.Legacy do
   end
 
   @doc """
-  Decodes a Base58Check encoded Legacy address string.
+  Decodes a `Base58Check` encoded Legacy address string.
 
   As `from_string/1` but returns the result or raises an exception.
   """
@@ -109,7 +107,7 @@ defmodule Satoxi.Address.Legacy do
   end
 
   @doc """
-  Encodes the address to a Base58Check string.
+  Encodes the address to a `Base58Check` string.
   """
   @spec to_string(t()) :: String.t()
   def to_string(%__MODULE__{pubkey_hash: pubkey_hash}) do

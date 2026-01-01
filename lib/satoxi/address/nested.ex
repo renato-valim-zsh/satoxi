@@ -1,20 +1,20 @@
 defmodule Satoxi.Address.Nested do
   @moduledoc """
-  Nested SegWit (P2SH-P2WPKH) Bitcoin addresses.
+  Nested SegWit (`P2SH-P2WPKH`) Bitcoin addresses.
 
-  These addresses wrap a SegWit script inside a P2SH address for compatibility
+  These addresses wrap a SegWit script inside a `P2SH` address for compatibility
   with wallets that don't support native SegWit. They start with `3` on mainnet
-  or `2` on testnet (same as regular P2SH).
+  or `2` on testnet (same as regular `P2SH`).
 
   Also known as "wrapped SegWit" or BIP-49 addresses.
 
   ## How it works
 
-  The redeem script for P2SH-P2WPKH is:
+  The redeem script for `P2SH-P2WPKH` is:
   ```
   OP_0 <20-byte pubkey hash>
   ```
-  Which is then hashed to create the P2SH address.
+  Which is then hashed to create the `P2SH` address.
 
   ## Examples
 
@@ -28,7 +28,7 @@ defmodule Satoxi.Address.Nested do
 
   defstruct [:script_hash, :pubkey_hash]
 
-  @typedoc "Nested SegWit (P2SH-P2WPKH) address"
+  @typedoc "Nested SegWit (`P2SH-P2WPKH`) address"
   @type t() :: %__MODULE__{
           script_hash: binary(),
           pubkey_hash: binary()
@@ -42,7 +42,7 @@ defmodule Satoxi.Address.Nested do
   @doc """
   Creates a Nested SegWit address from a public key.
 
-  This creates a P2SH-P2WPKH address where the redeem script is:
+  This creates a `P2SH-P2WPKH` address where the redeem script is:
   `OP_0 <20-byte pubkey hash>`
 
   ## Examples
@@ -89,10 +89,9 @@ defmodule Satoxi.Address.Nested do
   end
 
   @doc """
-  Encodes the address to a Base58Check string.
+  Encodes the address to a `Base58Check` string.
 
-  Note: The resulting address looks like a regular P2SH address (starts with 3/2),
-  but the spending conditions are SegWit-based.
+  Note: The resulting address looks like a regular `P2SH` address (starts with `3`/`2`), but the spending conditions are SegWit-based.
   """
   @spec to_string(t()) :: String.t()
   def to_string(%__MODULE__{script_hash: script_hash}) do
@@ -101,7 +100,7 @@ defmodule Satoxi.Address.Nested do
   end
 
   @doc """
-  Returns the script hash (20 bytes) used in the P2SH address.
+  Returns the script hash (20 bytes) used in the `P2SH` address.
   """
   @spec get_script_hash(t()) :: binary()
   def get_script_hash(%__MODULE__{script_hash: hash}), do: hash

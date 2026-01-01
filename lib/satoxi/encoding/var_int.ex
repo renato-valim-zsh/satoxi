@@ -1,8 +1,7 @@
 defmodule Satoxi.Encoding.VarInt do
   @moduledoc """
-  A VarInt is an integer encoded as a variable length binary value. It is a
-  format used throughout Bitcoin to represent the length of binary data in a
-  compact form.
+  A `VarInt` is an integer encoded as a variable length binary value. 
+  It is a format used throughout Bitcoin to represent the length of binary data in a compact form.
   """
   alias Satoxi.Serializable
 
@@ -12,7 +11,7 @@ defmodule Satoxi.Encoding.VarInt do
   @type t() :: binary()
 
   @doc """
-  Decodes the given VarInt binary into an integer.
+  Decodes the given `VarInt` binary into an integer.
 
   ## Examples
 
@@ -28,7 +27,7 @@ defmodule Satoxi.Encoding.VarInt do
   end
 
   @doc """
-  Decodes the given VarInt binary into an integer.
+  Decodes the given `VarInt` binary into an integer.
 
   As `decode/1` but returns the result or raises an exception.
   """
@@ -44,8 +43,8 @@ defmodule Satoxi.Encoding.VarInt do
   end
 
   @doc """
-  Returns a binary of the length specified by the VarInt in the first bytes of
-  the binary. Any remaining bytes are ignored.
+  Returns a binary of the length specified by the `VarInt` in the first bytes of the binary. 
+  Any remaining bytes are ignored.
 
   ## Examples
 
@@ -58,8 +57,7 @@ defmodule Satoxi.Encoding.VarInt do
   end
 
   @doc """
-  Returns a binary of the length specified by the VarInt in the first bytes of
-  the binary.
+  Returns a binary of the length specified by the `VarInt` in the first bytes of the binary.
 
   As `decode_binary/1` but returns the result or raises an exception.
   """
@@ -75,7 +73,7 @@ defmodule Satoxi.Encoding.VarInt do
   end
 
   @doc """
-  Encodes the given integer into a VarInt binary.
+  Encodes the given integer into a `VarInt` binary.
 
   ## Examples
 
@@ -105,7 +103,7 @@ defmodule Satoxi.Encoding.VarInt do
   end
 
   @doc """
-  Prepends the given binary with a VarInt representing the length of the binary.
+  Prepends the given binary with a `VarInt` representing the length of the binary.
 
   ## Examples
 
@@ -121,9 +119,7 @@ defmodule Satoxi.Encoding.VarInt do
   end
 
   @doc """
-  Parses the given binary, returning a tuple with a binary of the length
-  specified by the VarInt in the first bytes of the binary, and a binary of any
-  remaining bytes.
+  Parses the given binary, returning a tuple with a binary of the length specified by the `VarInt` in the first bytes of the binary, and a binary of any remaining bytes.
 
   ## Examples
 
@@ -147,8 +143,7 @@ defmodule Satoxi.Encoding.VarInt do
     do: {:error, :invalid_varint}
 
   @doc """
-  Parses the given binary, returning a tuple with an integer decoded from the
-  VarInt in the first bytes of the binary, and a binary of any remaining bytes.
+  Parses the given binary, returning a tuple with an integer decoded from the `VarInt` in the first bytes of the binary, and a binary of any remaining bytes.
 
   ## Examples
 
@@ -165,9 +160,8 @@ defmodule Satoxi.Encoding.VarInt do
     do: {:error, :invalid_varint}
 
   @doc """
-  Parses the given binary into a list of the length specified by the VarInt in
-  the first bytes of the binary. Each item is parsed according to the specified
-  `t:Satoxi.Serializable.t/0`.
+  Parses the given binary into a list of the length specified by the `VarInt` in the first bytes of the binary. 
+  Each item is parsed according to the specified `t:Satoxi.Serializable.t/0`.
   """
   @spec parse_items(binary(), Serializable.t()) ::
           {:ok, list(Serializable.t()), binary()}

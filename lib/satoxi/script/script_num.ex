@@ -1,18 +1,17 @@
 defmodule Satoxi.Script.ScriptNum do
   @moduledoc """
-  A ScriptNum is an integer encoded as little-endian variable-length integers
-  with the most significant bit determining the sign of the integer.
+  A `ScriptNum` is an integer encoded as little-endian variable-length integers with the most significant bit determining the sign of the integer.
 
   Used in Bitcoin Script for arithmetic operations.
   """
   import Bitwise
   import Satoxi.Binary, only: [reverse_binary: 1]
 
-  @typedoc "ScriptNum binary"
+  @typedoc "`ScriptNum` binary"
   @type t() :: binary()
 
   @doc """
-  Decodes the given ScriptNum binary into an integer.
+  Decodes the given `ScriptNum` binary into an integer.
 
   ## Examples
 
@@ -43,7 +42,7 @@ defmodule Satoxi.Script.ScriptNum do
     do: :binary.decode_unsigned(bin, :big)
 
   @doc """
-  Encodes the given integer into a ScriptNum binary.
+  Encodes the given integer into a `ScriptNum` binary.
 
   ## Examples
 

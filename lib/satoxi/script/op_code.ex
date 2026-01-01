@@ -5,8 +5,8 @@ defmodule Satoxi.Script.OpCode do
   Bitcoin Script provides a number of operations or commands, known as Op Codes.
   When the script is evaluated, the Op Codes manipulate the stack in some way.
 
-  Within a script, an Op Code is single byte integer. Op Codes can also be
-  referenced by an atom representing the word or name of the Op Code.
+  Within a script, an Op Code is single byte integer. 
+  Op Codes can also be referenced by an atom representing the word or name of the Op Code.
   """
 
   @typedoc """
@@ -164,8 +164,7 @@ defmodule Satoxi.Script.OpCode do
   def all(), do: @op_codes
 
   @doc """
-  Returns an `t:atom/0` Op Code from the given value. Returns nil if the value
-  is not a valid Op Code.
+  Returns an `t:atom/0` Op Code from the given value. Returns nil if the value is not a valid Op Code.
 
   ## Examples
 
@@ -212,8 +211,7 @@ defmodule Satoxi.Script.OpCode do
   end
 
   @doc """
-  Returns an `t:integer/0` Op Code from the given value. Returns nil if the
-  value is not a valid Op Code.
+  Returns an `t:integer/0` Op Code from the given value. Returns nil if the value is not a valid Op Code.
 
   ## Examples
 
