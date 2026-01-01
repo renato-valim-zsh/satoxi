@@ -1,5 +1,5 @@
 defmodule Satoxi.Transaction.BuilderTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias Satoxi.Address
   alias Satoxi.Contract.P2PKH

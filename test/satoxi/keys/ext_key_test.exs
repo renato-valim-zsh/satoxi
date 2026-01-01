@@ -1,5 +1,6 @@
 defmodule Satoxi.Keys.ExtKeyTest do
   use ExUnit.Case, async: true
+
   alias Satoxi.Keys.ExtKey
   alias Satoxi.Mnemonic
 

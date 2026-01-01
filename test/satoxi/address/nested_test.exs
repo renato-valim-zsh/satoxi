@@ -1,8 +1,10 @@
 defmodule Satoxi.Address.NestedTest do
   use ExUnit.Case, async: true
-  alias Satoxi.Address.{Nested, Encoding}
-  alias Satoxi.Keys.PubKey
+
+  alias Satoxi.Address.Encoding
+  alias Satoxi.Address.Nested
   alias Satoxi.Hash
+  alias Satoxi.Keys.PubKey
 
   @pubkey_bin <<3, 248, 31, 140, 139, 144, 245, 236, 6, 238, 66, 69, 234, 177, 102, 232, 175, 144,
                 63, 199, 58, 109, 215, 54, 54, 104, 126, 240, 39, 135, 10, 190, 57>>

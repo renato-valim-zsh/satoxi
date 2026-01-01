@@ -1,5 +1,5 @@
 defmodule Satoxi.MnemonicTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Satoxi.Mnemonic
 
   @entropy <<201, 197, 63, 127, 178, 20, 22, 189, 181, 107, 9, 241, 195, 111, 121, 147>>

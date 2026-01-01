@@ -1,5 +1,5 @@
 defmodule Satoxi.Contract.P2SH_P2WPKHTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias Satoxi.Address
   alias Satoxi.Contract

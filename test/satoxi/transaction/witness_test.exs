@@ -1,5 +1,5 @@
 defmodule Satoxi.Transaction.WitnessTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias Satoxi.Serializable
   alias Satoxi.Transaction.Witness

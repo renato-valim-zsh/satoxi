@@ -1,5 +1,5 @@
 defmodule Satoxi.ContractTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias Satoxi.Address
   alias Satoxi.Contract

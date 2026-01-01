@@ -1,5 +1,5 @@
 defmodule Satoxi.Contract.HelpersTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias Satoxi.Contract
   alias Satoxi.Contract.Helpers

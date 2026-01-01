@@ -1,6 +1,8 @@
 defmodule Satoxi.Address.P2SHTest do
   use ExUnit.Case, async: true
-  alias Satoxi.Address.{P2SH, Encoding}
+
+  alias Satoxi.Address.Encoding
+  alias Satoxi.Address.P2SH
   alias Satoxi.Hash
 
   @address_str "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy"

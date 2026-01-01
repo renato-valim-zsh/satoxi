@@ -1,7 +1,11 @@
 defmodule Satoxi.AddressTest do
   use ExUnit.Case, async: true
+
   alias Satoxi.Address
-  alias Satoxi.Address.{Legacy, P2SH, SegWit, Nested}
+  alias Satoxi.Address.Legacy
+  alias Satoxi.Address.Nested
+  alias Satoxi.Address.P2SH
+  alias Satoxi.Address.SegWit
   alias Satoxi.Keys.PubKey
 
   @pubkey_bin <<3, 248, 31, 140, 139, 144, 245, 236, 6, 238, 66, 69, 234, 177, 102, 232, 175, 144,

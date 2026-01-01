@@ -1,5 +1,5 @@
 defmodule Satoxi.Transaction.OutPointTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias Satoxi.Transaction.OutPoint
 

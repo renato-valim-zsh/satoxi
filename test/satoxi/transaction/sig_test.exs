@@ -1,5 +1,5 @@
 defmodule Satoxi.Transaction.SigTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias Satoxi.Keys.KeyPair
   alias Satoxi.Keys.PrivKey

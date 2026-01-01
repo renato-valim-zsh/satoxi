@@ -1,4 +1,4 @@
 defmodule Satoxi.Keys.PrivKeyTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest Satoxi.Keys.PrivKey
 end

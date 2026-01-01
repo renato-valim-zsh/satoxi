@@ -1,6 +1,8 @@
 defmodule Satoxi.Address.SegWitTest do
   use ExUnit.Case, async: true
-  alias Satoxi.Address.{SegWit, Encoding}
+
+  alias Satoxi.Address.Encoding
+  alias Satoxi.Address.SegWit
   alias Satoxi.Keys.PubKey
 
   @pubkey_bin <<3, 248, 31, 140, 139, 144, 245, 236, 6, 238, 66, 69, 234, 177, 102, 232, 175, 144,

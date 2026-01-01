@@ -1,5 +1,5 @@
 defmodule Satoxi.Transaction.InputTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias Satoxi.Script
   alias Satoxi.Transaction.Input
