@@ -9,8 +9,8 @@ defmodule Satoxi.Contract.HelpersTest do
   alias Satoxi.Script
   alias Satoxi.Transaction
   alias Satoxi.Transaction.Input
-  alias Satoxi.Transaction.Output
   alias Satoxi.Transaction.OutPoint
+  alias Satoxi.Transaction.Output
   alias Satoxi.Transaction.UTXO
 
   @wif "KyGHAK8MNohVPdeGPYXveiAbTfLARVrQuJVtd3qMqN41UEnTWDkF"
@@ -297,7 +297,7 @@ defmodule Satoxi.Contract.HelpersTest do
   end
 
   # Helper to create a test UTXO
-  defp create_test_utxo(satoshis \\ 10000) do
+  defp create_test_utxo(satoshis \\ 10_000) do
     %UTXO{
       outpoint: %OutPoint{
         hash: :binary.copy(<<0xAB>>, 32),

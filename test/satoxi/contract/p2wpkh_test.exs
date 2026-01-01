@@ -11,8 +11,8 @@ defmodule Satoxi.Contract.P2WPKHTest do
   alias Satoxi.Script
   alias Satoxi.Transaction
   alias Satoxi.Transaction.Input
-  alias Satoxi.Transaction.Output
   alias Satoxi.Transaction.OutPoint
+  alias Satoxi.Transaction.Output
   alias Satoxi.Transaction.UTXO
 
   @wif "KyGHAK8MNohVPdeGPYXveiAbTfLARVrQuJVtd3qMqN41UEnTWDkF"
@@ -101,10 +101,10 @@ defmodule Satoxi.Contract.P2WPKHTest do
     end
   end
 
-  describe "Contract.is_segwit?/1" do
+  describe "Contract.segwit?/1" do
     test "returns true for P2WPKH contracts" do
       contract = P2WPKH.unlock(%UTXO{}, %{keypair: @keypair})
-      assert Contract.is_segwit?(contract)
+      assert Contract.segwit?(contract)
     end
   end
 end

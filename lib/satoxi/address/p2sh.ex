@@ -119,7 +119,9 @@ defmodule Satoxi.Address.P2SH do
   def get_script_hash(%__MODULE__{script_hash: hash}), do: hash
 
   defimpl Satoxi.Address.Encoding do
-    def to_string(address), do: Satoxi.Address.P2SH.to_string(address)
-    def get_hash(address), do: Satoxi.Address.P2SH.get_script_hash(address)
+    alias Satoxi.Address.P2SH
+
+    def to_string(address), do: P2SH.to_string(address)
+    def get_hash(address), do: P2SH.get_script_hash(address)
   end
 end

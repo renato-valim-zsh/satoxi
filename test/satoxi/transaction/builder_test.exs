@@ -4,8 +4,10 @@ defmodule Satoxi.Transaction.BuilderTest do
   alias Satoxi.Address
   alias Satoxi.Contract.P2PKH
   alias Satoxi.Contract.P2WPKH
+  alias Satoxi.Hash
   alias Satoxi.Keys.KeyPair
   alias Satoxi.Keys.PrivKey
+  alias Satoxi.Keys.PubKey
   alias Satoxi.Script
   alias Satoxi.Transaction
   alias Satoxi.Transaction.Builder
@@ -25,7 +27,7 @@ defmodule Satoxi.Transaction.BuilderTest do
     test "adds unlocking contract to builder" do
       builder = %Builder{}
 
-      utxo = create_p2pkh_utxo(0x01, 0, 10000, @keypair)
+      utxo = create_p2pkh_utxo(0x01, 0, 10_000, @keypair)
       contract = P2PKH.unlock(utxo, %{keypair: @keypair})
 
       updated = Builder.add_input(builder, contract)
@@ -35,8 +37,8 @@ defmodule Satoxi.Transaction.BuilderTest do
     end
 
     test "appends multiple inputs" do
-      utxo1 = create_p2pkh_utxo(0x01, 0, 10000, @keypair)
-      utxo2 = create_p2pkh_utxo(0x02, 0, 20000, @keypair)
+      utxo1 = create_p2pkh_utxo(0x01, 0, 10_000, @keypair)
+      utxo2 = create_p2pkh_utxo(0x02, 0, 20_000, @keypair)
 
       builder =
         %Builder{}
@@ -74,9 +76,9 @@ defmodule Satoxi.Transaction.BuilderTest do
 
   describe "input_sum/1" do
     test "returns sum of all input UTXO values" do
-      utxo1 = create_p2pkh_utxo(0x01, 0, 10000, @keypair)
-      utxo2 = create_p2pkh_utxo(0x02, 0, 25000, @keypair)
-      utxo3 = create_p2pkh_utxo(0x03, 0, 15000, @keypair)
+      utxo1 = create_p2pkh_utxo(0x01, 0, 10_000, @keypair)
+      utxo2 = create_p2pkh_utxo(0x02, 0, 25_000, @keypair)
+      utxo3 = create_p2pkh_utxo(0x03, 0, 15_000, @keypair)
 
       builder =
         %Builder{}
@@ -84,7 +86,7 @@ defmodule Satoxi.Transaction.BuilderTest do
         |> Builder.add_input(P2PKH.unlock(utxo2, %{keypair: @keypair}))
         |> Builder.add_input(P2PKH.unlock(utxo3, %{keypair: @keypair}))
 
-      assert Builder.input_sum(builder) == 50000
+      assert Builder.input_sum(builder) == 50_000
     end
 
     test "returns 0 for empty inputs" do
@@ -175,7 +177,7 @@ defmodule Satoxi.Transaction.BuilderTest do
 
   describe "to_tx/1 with P2PKH" do
     test "builds complete signed P2PKH transaction" do
-      utxo = create_p2pkh_utxo(0x01, 0, 10000, @keypair)
+      utxo = create_p2pkh_utxo(0x01, 0, 10_000, @keypair)
       address = Address.from_pubkey(@keypair2.pubkey)
 
       builder =
@@ -196,7 +198,7 @@ defmodule Satoxi.Transaction.BuilderTest do
     end
 
     test "built P2PKH transaction has valid signature" do
-      utxo = create_p2pkh_utxo(0x01, 0, 10000, @keypair)
+      utxo = create_p2pkh_utxo(0x01, 0, 10_000, @keypair)
       address = Address.from_pubkey(@keypair2.pubkey)
 
       builder =
@@ -216,8 +218,8 @@ defmodule Satoxi.Transaction.BuilderTest do
     end
 
     test "builds transaction with multiple inputs" do
-      utxo1 = create_p2pkh_utxo(0x01, 0, 10000, @keypair)
-      utxo2 = create_p2pkh_utxo(0x02, 0, 15000, @keypair2)
+      utxo1 = create_p2pkh_utxo(0x01, 0, 10_000, @keypair)
+      utxo2 = create_p2pkh_utxo(0x02, 0, 15_000, @keypair2)
 
       address = Address.from_pubkey(@keypair.pubkey)
 
@@ -225,7 +227,7 @@ defmodule Satoxi.Transaction.BuilderTest do
         %Builder{}
         |> Builder.add_input(P2PKH.unlock(utxo1, %{keypair: @keypair}))
         |> Builder.add_input(P2PKH.unlock(utxo2, %{keypair: @keypair2}))
-        |> Builder.add_output(P2PKH.lock(24000, %{address: address}))
+        |> Builder.add_output(P2PKH.lock(24_000, %{address: address}))
 
       tx = Builder.to_tx(builder)
 
@@ -234,7 +236,7 @@ defmodule Satoxi.Transaction.BuilderTest do
     end
 
     test "builds transaction with multiple outputs" do
-      utxo = create_p2pkh_utxo(0x01, 0, 20000, @keypair)
+      utxo = create_p2pkh_utxo(0x01, 0, 20_000, @keypair)
 
       address1 = Address.from_pubkey(@keypair.pubkey)
       address2 = Address.from_pubkey(@keypair2.pubkey)
@@ -242,7 +244,7 @@ defmodule Satoxi.Transaction.BuilderTest do
       builder =
         %Builder{}
         |> Builder.add_input(P2PKH.unlock(utxo, %{keypair: @keypair}))
-        |> Builder.add_output(P2PKH.lock(10000, %{address: address1}))
+        |> Builder.add_output(P2PKH.lock(10_000, %{address: address1}))
         |> Builder.add_output(P2PKH.lock(9000, %{address: address2}))
 
       tx = Builder.to_tx(builder)
@@ -254,7 +256,7 @@ defmodule Satoxi.Transaction.BuilderTest do
 
   describe "to_tx/1 with P2WPKH" do
     test "builds complete signed P2WPKH transaction" do
-      utxo = create_p2wpkh_utxo(0x01, 0, 10000, @keypair)
+      utxo = create_p2wpkh_utxo(0x01, 0, 10_000, @keypair)
 
       address = Address.from_pubkey(@keypair2.pubkey, type: :p2wpkh)
 
@@ -266,14 +268,14 @@ defmodule Satoxi.Transaction.BuilderTest do
       tx = Builder.to_tx(builder)
 
       assert %Transaction{} = tx
-      assert Transaction.is_segwit?(tx)
+      assert Transaction.segwit?(tx)
 
       assert length(tx.inputs) == 1
       assert length(tx.outputs) == 1
     end
 
     test "P2WPKH input has empty scriptSig" do
-      utxo = create_p2wpkh_utxo(0x01, 0, 10000, @keypair)
+      utxo = create_p2wpkh_utxo(0x01, 0, 10_000, @keypair)
       address = Address.from_pubkey(@keypair2.pubkey, type: :p2wpkh)
 
       builder =
@@ -290,7 +292,7 @@ defmodule Satoxi.Transaction.BuilderTest do
     end
 
     test "P2WPKH input has witness data" do
-      utxo = create_p2wpkh_utxo(0x01, 0, 10000, @keypair)
+      utxo = create_p2wpkh_utxo(0x01, 0, 10_000, @keypair)
       address = Address.from_pubkey(@keypair2.pubkey, type: :p2wpkh)
 
       builder =
@@ -313,7 +315,7 @@ defmodule Satoxi.Transaction.BuilderTest do
     end
 
     test "P2WPKH signature verifies correctly" do
-      utxo = create_p2wpkh_utxo(0x01, 0, 10000, @keypair)
+      utxo = create_p2wpkh_utxo(0x01, 0, 10_000, @keypair)
       address = Address.from_pubkey(@keypair2.pubkey, type: :p2wpkh)
 
       builder =
@@ -326,7 +328,7 @@ defmodule Satoxi.Transaction.BuilderTest do
       [input] = tx.inputs
       [signature, _pubkey] = input.witness.items
 
-      pubkey_hash = Satoxi.Hash.sha256_ripemd160(Satoxi.Keys.PubKey.to_binary(@keypair.pubkey))
+      pubkey_hash = Hash.sha256_ripemd160(PubKey.to_binary(@keypair.pubkey))
       script_code = Sig.p2wpkh_script_code(pubkey_hash)
 
       assert Sig.segwit_verify(signature, tx, 0, utxo.output, script_code, @keypair.pubkey)
@@ -335,7 +337,7 @@ defmodule Satoxi.Transaction.BuilderTest do
 
   describe "to_tx/1 roundtrip" do
     test "built transaction can be serialized and parsed" do
-      utxo = create_p2pkh_utxo(0x01, 0, 10000, @keypair)
+      utxo = create_p2pkh_utxo(0x01, 0, 10_000, @keypair)
       address = Address.from_pubkey(@keypair2.pubkey)
 
       builder =
@@ -357,7 +359,7 @@ defmodule Satoxi.Transaction.BuilderTest do
     end
 
     test "SegWit transaction roundtrips correctly" do
-      utxo = create_p2wpkh_utxo(0x01, 0, 10000, @keypair)
+      utxo = create_p2wpkh_utxo(0x01, 0, 10_000, @keypair)
       address = Address.from_pubkey(@keypair2.pubkey, type: :p2wpkh)
 
       builder =
@@ -371,7 +373,7 @@ defmodule Satoxi.Transaction.BuilderTest do
 
       {:ok, parsed} = Transaction.from_binary(binary)
 
-      assert Transaction.is_segwit?(parsed)
+      assert Transaction.segwit?(parsed)
       [parsed_input] = parsed.inputs
 
       assert Witness.has_items?(parsed_input.witness)
@@ -382,7 +384,7 @@ defmodule Satoxi.Transaction.BuilderTest do
 
   describe "lock_time" do
     test "builder respects lock_time setting" do
-      utxo = create_p2pkh_utxo(0x01, 0, 10000, @keypair)
+      utxo = create_p2pkh_utxo(0x01, 0, 10_000, @keypair)
 
       address = Address.from_pubkey(@keypair.pubkey)
 

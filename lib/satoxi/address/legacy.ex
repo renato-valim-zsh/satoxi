@@ -122,7 +122,9 @@ defmodule Satoxi.Address.Legacy do
   def get_pubkey_hash(%__MODULE__{pubkey_hash: hash}), do: hash
 
   defimpl Satoxi.Address.Encoding do
-    def to_string(address), do: Satoxi.Address.Legacy.to_string(address)
-    def get_hash(address), do: Satoxi.Address.Legacy.get_pubkey_hash(address)
+    alias Satoxi.Address.Legacy
+
+    def to_string(address), do: Legacy.to_string(address)
+    def get_hash(address), do: Legacy.get_pubkey_hash(address)
   end
 end

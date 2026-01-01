@@ -161,7 +161,7 @@ defmodule Satoxi.Script.OpCode do
   Returns a map of all Op Codes.
   """
   @spec all() :: map()
-  def all(), do: @op_codes
+  def all, do: @op_codes
 
   @doc """
   Returns an `t:atom/0` Op Code from the given value. Returns nil if the value is not a valid Op Code.

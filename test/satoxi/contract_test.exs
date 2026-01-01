@@ -11,8 +11,8 @@ defmodule Satoxi.ContractTest do
   alias Satoxi.Script
   alias Satoxi.Transaction
   alias Satoxi.Transaction.Input
-  alias Satoxi.Transaction.Output
   alias Satoxi.Transaction.OutPoint
+  alias Satoxi.Transaction.Output
   alias Satoxi.Transaction.UTXO
   alias Satoxi.Transaction.Witness
 
@@ -69,7 +69,7 @@ defmodule Satoxi.ContractTest do
       updated = Contract.script_push(contract, 42)
 
       # The integer is converted to a binary
-      assert length(updated.script.chunks) > 0
+      assert updated.script.chunks != []
 
       # Find the pushed binary (the last chunk since we pushed it)
       assert is_binary(List.last(updated.script.chunks))
@@ -269,33 +269,33 @@ defmodule Satoxi.ContractTest do
     end
   end
 
-  describe "is_segwit?/1" do
+  describe "segwit?/1" do
     test "returns false for P2PKH contracts" do
       utxo = create_test_utxo()
       contract = P2PKH.unlock(utxo, %{keypair: @keypair})
 
-      refute Contract.is_segwit?(contract)
+      refute Contract.segwit?(contract)
     end
 
     test "returns true for P2WPKH contracts" do
       utxo = create_test_utxo()
       contract = P2WPKH.unlock(utxo, %{keypair: @keypair})
 
-      assert Contract.is_segwit?(contract)
+      assert Contract.segwit?(contract)
     end
 
     test "returns false for P2PKH locking contracts" do
       address = Address.from_pubkey(@keypair.pubkey)
       contract = P2PKH.lock(1000, %{address: address})
 
-      refute Contract.is_segwit?(contract)
+      refute Contract.segwit?(contract)
     end
 
     test "returns true for P2WPKH locking contracts" do
       address = Address.from_pubkey(@keypair.pubkey, type: :p2wpkh)
       contract = P2WPKH.lock(1000, %{address: address})
 
-      assert Contract.is_segwit?(contract)
+      assert Contract.segwit?(contract)
     end
   end
 
@@ -375,7 +375,7 @@ defmodule Satoxi.ContractTest do
   end
 
   # Helper to create a test UTXO
-  defp create_test_utxo(satoshis \\ 10000) do
+  defp create_test_utxo(satoshis \\ 10_000) do
     %UTXO{
       outpoint: %OutPoint{
         hash: :binary.copy(<<0xAB>>, 32),

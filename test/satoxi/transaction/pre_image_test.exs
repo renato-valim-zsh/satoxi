@@ -7,8 +7,8 @@ defmodule Satoxi.Transaction.PreImageTest do
   alias Satoxi.Script
   alias Satoxi.Transaction
   alias Satoxi.Transaction.Input
-  alias Satoxi.Transaction.Output
   alias Satoxi.Transaction.OutPoint
+  alias Satoxi.Transaction.Output
   alias Satoxi.Transaction.PreImage
 
   @wif "KyGHAK8MNohVPdeGPYXveiAbTfLARVrQuJVtd3qMqN41UEnTWDkF"
@@ -65,7 +65,7 @@ defmodule Satoxi.Transaction.PreImageTest do
         ]
       }
 
-      output = %Output{satoshis: 50000, script: script_with_codesep}
+      output = %Output{satoshis: 50_000, script: script_with_codesep}
 
       preimage = PreImage.legacy(tx, 0, output, 0x01)
 
@@ -76,7 +76,7 @@ defmodule Satoxi.Transaction.PreImageTest do
         chunks: [:OP_DUP, :OP_HASH160, <<0::160>>, :OP_EQUALVERIFY, :OP_CHECKSIG]
       }
 
-      output_clean = %Output{satoshis: 50000, script: script_without_codesep}
+      output_clean = %Output{satoshis: 50_000, script: script_without_codesep}
       preimage_clean = PreImage.legacy(tx, 0, output_clean, 0x01)
 
       assert preimage == preimage_clean
@@ -98,7 +98,7 @@ defmodule Satoxi.Transaction.PreImageTest do
         ]
       }
 
-      output = %Output{satoshis: 50000, script: script_with_multiple_codesep}
+      output = %Output{satoshis: 50_000, script: script_with_multiple_codesep}
 
       preimage = PreImage.legacy(tx, 0, output, 0x01)
 
@@ -108,7 +108,7 @@ defmodule Satoxi.Transaction.PreImageTest do
         chunks: [:OP_DUP, :OP_HASH160, <<0::160>>, :OP_EQUALVERIFY, :OP_CHECKSIG]
       }
 
-      output_clean = %Output{satoshis: 50000, script: script_clean}
+      output_clean = %Output{satoshis: 50_000, script: script_clean}
       preimage_clean = PreImage.legacy(tx, 0, output_clean, 0x01)
 
       assert preimage == preimage_clean
@@ -159,7 +159,7 @@ defmodule Satoxi.Transaction.PreImageTest do
             sequence: 0xFFFFFFFF
           }
         ],
-        outputs: [%Output{satoshis: 10000, script: @p2pkh_script}],
+        outputs: [%Output{satoshis: 10_000, script: @p2pkh_script}],
         lock_time: 0
       }
 
@@ -167,7 +167,7 @@ defmodule Satoxi.Transaction.PreImageTest do
       tx_single = %Transaction{
         version: 1,
         inputs: [fixed_input],
-        outputs: [%Output{satoshis: 10000, script: @p2pkh_script}],
+        outputs: [%Output{satoshis: 10_000, script: @p2pkh_script}],
         lock_time: 0
       }
 
@@ -205,7 +205,7 @@ defmodule Satoxi.Transaction.PreImageTest do
       tx1 = %Transaction{
         version: 1,
         inputs: [input],
-        outputs: [%Output{satoshis: 10000, script: @p2pkh_script}],
+        outputs: [%Output{satoshis: 10_000, script: @p2pkh_script}],
         lock_time: 0
       }
 
@@ -213,8 +213,8 @@ defmodule Satoxi.Transaction.PreImageTest do
         version: 1,
         inputs: [input],
         outputs: [
-          %Output{satoshis: 99999, script: @p2pkh_script},
-          %Output{satoshis: 88888, script: @p2pkh_script}
+          %Output{satoshis: 99_999, script: @p2pkh_script},
+          %Output{satoshis: 88_888, script: @p2pkh_script}
         ],
         lock_time: 0
       }
@@ -241,8 +241,8 @@ defmodule Satoxi.Transaction.PreImageTest do
         sequence: 0xFFFFFFFF
       }
 
-      output0 = %Output{satoshis: 10000, script: @p2pkh_script}
-      output1 = %Output{satoshis: 20000, script: @p2pkh_script}
+      output0 = %Output{satoshis: 10_000, script: @p2pkh_script}
+      output1 = %Output{satoshis: 20_000, script: @p2pkh_script}
 
       tx = %Transaction{
         version: 1,
@@ -257,13 +257,13 @@ defmodule Satoxi.Transaction.PreImageTest do
       preimage0 = PreImage.legacy(tx, 0, spent_output, 0x03)
 
       # Change output 1 - should NOT affect signature for input 0
-      tx_modified = %{tx | outputs: [output0, %Output{satoshis: 99999, script: @p2pkh_script}]}
+      tx_modified = %{tx | outputs: [output0, %Output{satoshis: 99_999, script: @p2pkh_script}]}
       preimage0_modified = PreImage.legacy(tx_modified, 0, spent_output, 0x03)
 
       assert preimage0 == preimage0_modified
 
       # But changing output 0 SHOULD affect the signature
-      tx_changed = %{tx | outputs: [%Output{satoshis: 11111, script: @p2pkh_script}, output1]}
+      tx_changed = %{tx | outputs: [%Output{satoshis: 11_111, script: @p2pkh_script}, output1]}
       preimage0_changed = PreImage.legacy(tx_changed, 0, spent_output, 0x03)
 
       assert preimage0 != preimage0_changed
@@ -287,8 +287,8 @@ defmodule Satoxi.Transaction.PreImageTest do
         version: 1,
         inputs: [input0, input1],
         outputs: [
-          %Output{satoshis: 10000, script: @p2pkh_script},
-          %Output{satoshis: 20000, script: @p2pkh_script}
+          %Output{satoshis: 10_000, script: @p2pkh_script},
+          %Output{satoshis: 20_000, script: @p2pkh_script}
         ],
         lock_time: 0
       }
@@ -300,8 +300,8 @@ defmodule Satoxi.Transaction.PreImageTest do
         version: 1,
         inputs: [input0, input1_different_seq],
         outputs: [
-          %Output{satoshis: 10000, script: @p2pkh_script},
-          %Output{satoshis: 20000, script: @p2pkh_script}
+          %Output{satoshis: 10_000, script: @p2pkh_script},
+          %Output{satoshis: 20_000, script: @p2pkh_script}
         ],
         lock_time: 0
       }
@@ -349,8 +349,8 @@ defmodule Satoxi.Transaction.PreImageTest do
     test "includes output value in preimage" do
       tx = create_test_tx()
 
-      output1 = create_spent_output(50000)
-      output2 = create_spent_output(99999)
+      output1 = create_spent_output(50_000)
+      output2 = create_spent_output(99_999)
 
       script_code = @keypair |> get_pubkey_hash_from_keypair() |> PreImage.p2wpkh_script_code()
 
@@ -845,7 +845,7 @@ defmodule Satoxi.Transaction.PreImageTest do
       tx1 = %Transaction{
         version: 1,
         inputs: [input],
-        outputs: [%Output{satoshis: 10000, script: @p2pkh_script}],
+        outputs: [%Output{satoshis: 10_000, script: @p2pkh_script}],
         lock_time: 0
       }
 
@@ -853,8 +853,8 @@ defmodule Satoxi.Transaction.PreImageTest do
         version: 1,
         inputs: [input],
         outputs: [
-          %Output{satoshis: 99999, script: @p2pkh_script},
-          %Output{satoshis: 88888, script: @p2pkh_script}
+          %Output{satoshis: 99_999, script: @p2pkh_script},
+          %Output{satoshis: 88_888, script: @p2pkh_script}
         ],
         lock_time: 0
       }
@@ -932,14 +932,14 @@ defmodule Satoxi.Transaction.PreImageTest do
 
     outputs =
       for i <- 0..(num_outputs - 1) do
-        %Output{satoshis: 10000 * (i + 1), script: @p2pkh_script}
+        %Output{satoshis: 10_000 * (i + 1), script: @p2pkh_script}
       end
 
     %Transaction{version: 1, inputs: inputs, outputs: outputs, lock_time: 0}
   end
 
   # Helper to create an output being spent
-  defp create_spent_output(satoshis \\ 50000) do
+  defp create_spent_output(satoshis \\ 50_000) do
     %Output{satoshis: satoshis, script: @p2pkh_script}
   end
 

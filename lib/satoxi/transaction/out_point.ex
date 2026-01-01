@@ -69,12 +69,12 @@ defmodule Satoxi.Transaction.OutPoint do
   @doc """
   Checks if the given OutPoint is a null.
 
-  The first transaction in a block is used to distrbute the block reward to miners. 
+  The first transaction in a block is used to distrbute the block reward to miners.
   These transactions (known as Coinbase transactions) do not spend a previous output, and thus the OutPoint is null.
   """
-  @spec is_null?(t()) :: boolean()
-  def is_null?(%__MODULE__{hash: @coinbase_hash, vout: @coinbase_sequence}), do: true
-  def is_null?(%__MODULE__{}), do: false
+  @spec null?(t()) :: boolean()
+  def null?(%__MODULE__{hash: @coinbase_hash, vout: @coinbase_sequence}), do: true
+  def null?(%__MODULE__{}), do: false
 
   @doc """
   Serialises the given `t:Satoxi.Transaction.OutPoint.t/0` into a binary.

@@ -5,8 +5,8 @@ defmodule Satoxi.Keys.PubKey do
   Internally, a public key is the `x` and `y` coordiantes of a point of the `secp256k1` curve. 
   It is derived by performaing elliptic curve multiplication on a corresponding private key.
   """
-  alias Satoxi.Keys.PrivKey
   alias Curvy.{Key, Point}
+  alias Satoxi.Keys.PrivKey
   import Satoxi.Encoding, only: [decode: 2, encode: 2]
 
   defstruct [:point, compressed: true]

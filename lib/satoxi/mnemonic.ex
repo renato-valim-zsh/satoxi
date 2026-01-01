@@ -94,7 +94,7 @@ defmodule Satoxi.Mnemonic do
 
   @doc false
   @spec wordlist() :: list()
-  def wordlist(), do: @wordlist
+  def wordlist, do: @wordlist
 
   # Add a checksum to the entropy
   defp checksum(entropy) do

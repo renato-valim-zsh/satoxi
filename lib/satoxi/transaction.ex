@@ -77,7 +77,7 @@ defmodule Satoxi.Transaction do
   The witness data appears after all outputs and before the locktime, with one witness stack per input.
   """
   alias Satoxi.{Contract, Hash, Serializable}
-  alias Satoxi.Transaction.{Builder, OutPoint, Input, Output, UTXO, Witness}
+  alias Satoxi.Transaction.{Builder, Input, OutPoint, Output, UTXO, Witness}
   import Satoxi.Binary, only: [reverse_binary: 1]
   import Satoxi.Encoding
 
@@ -164,19 +164,19 @@ defmodule Satoxi.Transaction do
   @doc """
   Returns true if the given `t:Satoxi.Transaction.t/0` is a coinbase transaction (the first transaction in a block, containing the miner block reward).
   """
-  @spec is_coinbase?(t()) :: boolean()
-  def is_coinbase?(%__MODULE__{inputs: [input]}),
-    do: OutPoint.is_null?(input.outpoint)
+  @spec coinbase?(t()) :: boolean()
+  def coinbase?(%__MODULE__{inputs: [input]}),
+    do: OutPoint.null?(input.outpoint)
 
-  def is_coinbase?(%__MODULE__{}), do: false
+  def coinbase?(%__MODULE__{}), do: false
 
   @doc """
   Returns true if the given `t:Satoxi.Transaction.t/0` is a SegWit transaction.
 
   A transaction is considered SegWit if any of its inputs has witness data.
   """
-  @spec is_segwit?(t()) :: boolean()
-  def is_segwit?(%__MODULE__{inputs: inputs}) do
+  @spec segwit?(t()) :: boolean()
+  def segwit?(%__MODULE__{inputs: inputs}) do
     Enum.any?(inputs, &Input.has_witness?/1)
   end
 
@@ -319,10 +319,10 @@ defmodule Satoxi.Transaction do
   @spec to_binary(t()) :: binary()
   def to_binary(%__MODULE__{} = tx, opts \\ []) do
     encoding = Keyword.get(opts, :encoding)
-    segwit = Keyword.get(opts, :segwit, is_segwit?(tx))
+    segwit = Keyword.get(opts, :segwit, segwit?(tx))
 
     data =
-      if segwit and is_segwit?(tx) do
+      if segwit and segwit?(tx) do
         serialize_segwit(tx)
       else
         Serializable.serialize(tx)
@@ -372,11 +372,11 @@ defmodule Satoxi.Transaction do
       <<version::little-32, rest::binary>> = data
 
       case rest do
-        # Segwit format: marker=0x00, flag=0x01 
+        # Segwit format: marker=0x00, flag=0x01
         <<0x00, 0x01, data::binary>> ->
           parse_segwit(tx, version, data)
 
-        # Legacy format 
+        # Legacy format
         data ->
           parse_legacy(tx, version, data)
       end
@@ -384,8 +384,9 @@ defmodule Satoxi.Transaction do
 
     defp parse_legacy(tx, version, data) do
       with {:ok, inputs, data} <- parse_varint_items(data, Input),
-           {:ok, outputs, data} <- parse_varint_items(data, Output),
-           <<lock_time::little-32, rest::binary>> = data do
+           {:ok, outputs, data} <- parse_varint_items(data, Output) do
+        <<lock_time::little-32, rest::binary>> = data
+
         {:ok,
          struct(tx,
            version: version,
@@ -399,8 +400,9 @@ defmodule Satoxi.Transaction do
     defp parse_segwit(tx, version, data) do
       with {:ok, inputs, data} <- parse_varint_items(data, Input),
            {:ok, outputs, data} <- parse_varint_items(data, Output),
-           {:ok, inputs, data} <- parse_witnesses(inputs, data),
-           <<lock_time::little-32, rest::binary>> = data do
+           {:ok, inputs, data} <- parse_witnesses(inputs, data) do
+        <<lock_time::little-32, rest::binary>> = data
+
         {:ok,
          struct(tx,
            version: version,

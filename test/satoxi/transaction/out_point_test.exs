@@ -40,10 +40,10 @@ defmodule Satoxi.Transaction.OutPointTest do
     end
   end
 
-  describe "OutPoint.is_null?/1" do
+  describe "OutPoint.null?/1" do
     test "checks of outpoint is null" do
-      refute OutPoint.is_null?(@outpoint)
-      assert OutPoint.is_null?(@null_outpoint)
+      refute OutPoint.null?(@outpoint)
+      assert OutPoint.null?(@null_outpoint)
     end
   end
 

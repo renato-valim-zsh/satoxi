@@ -195,9 +195,7 @@ defmodule Satoxi.Script do
   """
   @spec to_asm(t()) :: binary()
   def to_asm(%__MODULE__{chunks: chunks}) do
-    chunks
-    |> Enum.map(&serialize_asm_chunk/1)
-    |> Enum.join(" ")
+    Enum.map_join(chunks, " ", &serialize_asm_chunk/1)
   end
 
   @doc """

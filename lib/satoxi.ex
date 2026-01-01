@@ -19,5 +19,5 @@ defmodule Satoxi do
   Returns the currently configured Bitcoin network.
   """
   @spec network() :: network()
-  def network(), do: Application.get_env(:satoxi, :network, :main)
+  def network, do: Application.get_env(:satoxi, :network, :main)
 end

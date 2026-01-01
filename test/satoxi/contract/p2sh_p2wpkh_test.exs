@@ -113,10 +113,10 @@ defmodule Satoxi.Contract.P2SH_P2WPKHTest do
     end
   end
 
-  describe "Contract.is_segwit?/1" do
+  describe "Contract.segwit?/1" do
     test "returns true for P2SH_P2WPKH contracts" do
       contract = P2SH_P2WPKH.unlock(%UTXO{}, %{keypair: @keypair})
-      assert Contract.is_segwit?(contract)
+      assert Contract.segwit?(contract)
     end
   end
 end

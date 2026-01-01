@@ -7,8 +7,8 @@ defmodule Satoxi.Transaction.SigTest do
   alias Satoxi.Script
   alias Satoxi.Transaction
   alias Satoxi.Transaction.Input
-  alias Satoxi.Transaction.Output
   alias Satoxi.Transaction.OutPoint
+  alias Satoxi.Transaction.Output
   alias Satoxi.Transaction.Sig
 
   @wif "KyGHAK8MNohVPdeGPYXveiAbTfLARVrQuJVtd3qMqN41UEnTWDkF"
@@ -91,7 +91,7 @@ defmodule Satoxi.Transaction.SigTest do
         ]
       }
 
-      output = %Output{satoshis: 50000, script: script_with_codesep}
+      output = %Output{satoshis: 50_000, script: script_with_codesep}
 
       # Should not raise and should produce valid preimage
       preimage = Sig.preimage(tx, 0, output, 0x01)
@@ -195,7 +195,7 @@ defmodule Satoxi.Transaction.SigTest do
 
       signature = Sig.sign(tx, 0, output, @keypair.privkey)
 
-      tampered_tx = put_in(tx.lock_time, 12345)
+      tampered_tx = put_in(tx.lock_time, 12_345)
 
       refute Sig.verify(signature, tampered_tx, 0, output, @keypair.pubkey)
     end
@@ -219,7 +219,7 @@ defmodule Satoxi.Transaction.SigTest do
 
       sig_none = Sig.sign(tx, 0, output, @keypair.privkey, sighash_type: 0x02)
 
-      modified_tx = put_in(tx.outputs, [%Output{satoshis: 99999, script: @p2pkh_script}])
+      modified_tx = put_in(tx.outputs, [%Output{satoshis: 99_999, script: @p2pkh_script}])
 
       # Should still verify because SIGHASH_NONE doesn't sign outputs
       assert Sig.verify(sig_none, modified_tx, 0, output, @keypair.pubkey)
@@ -355,14 +355,14 @@ defmodule Satoxi.Transaction.SigTest do
 
     test "verify returns false for tampered amount" do
       tx = create_test_tx()
-      output = create_spent_output(50000)
+      output = create_spent_output(50_000)
 
       script_code = @keypair |> get_pubkey_hash_from_keypair() |> Sig.p2wpkh_script_code()
 
       signature = Sig.segwit_sign(tx, 0, output, script_code, @keypair.privkey)
 
       # SegWit commits to the amount being spent
-      tampered_output = %{output | satoshis: 99999}
+      tampered_output = %{output | satoshis: 99_999}
 
       refute Sig.segwit_verify(signature, tx, 0, tampered_output, script_code, @keypair.pubkey)
     end
@@ -416,14 +416,14 @@ defmodule Satoxi.Transaction.SigTest do
 
     outputs =
       for i <- 0..(num_outputs - 1) do
-        %Output{satoshis: 10000 * (i + 1), script: @p2pkh_script}
+        %Output{satoshis: 10_000 * (i + 1), script: @p2pkh_script}
       end
 
     %Transaction{version: 1, inputs: inputs, outputs: outputs, lock_time: 0}
   end
 
   # Helper to create an output being spent
-  defp create_spent_output(satoshis \\ 50000) do
+  defp create_spent_output(satoshis \\ 50_000) do
     %Output{satoshis: satoshis, script: @p2pkh_script}
   end
 

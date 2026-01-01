@@ -122,7 +122,9 @@ defmodule Satoxi.Address.Nested do
   end
 
   defimpl Satoxi.Address.Encoding do
-    def to_string(address), do: Satoxi.Address.Nested.to_string(address)
-    def get_hash(address), do: Satoxi.Address.Nested.get_script_hash(address)
+    alias Satoxi.Address.Nested
+
+    def to_string(address), do: Nested.to_string(address)
+    def get_hash(address), do: Nested.get_script_hash(address)
   end
 end

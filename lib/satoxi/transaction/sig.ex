@@ -26,9 +26,9 @@ defmodule Satoxi.Transaction.Sig do
 
   For direct access to preimage generation, see `Satoxi.Transaction.PreImage`.
   """
-  alias Satoxi.Script
   alias Satoxi.Hash
   alias Satoxi.Keys.{PrivKey, PubKey}
+  alias Satoxi.Script
   alias Satoxi.Transaction
   alias Satoxi.Transaction.{Input, Output, PreImage}
 

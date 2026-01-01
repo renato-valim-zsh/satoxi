@@ -10,8 +10,8 @@ defmodule Satoxi.Keys.ExtKey do
 
   Extended keys can be serialised using `to_string/1`, to make the key easier to store or share.
   """
-  alias Satoxi.{Hash, Keys.PrivKey, Keys.PubKey, Mnemonic}
   alias Curvy.Point
+  alias Satoxi.{Hash, Keys.PrivKey, Keys.PubKey, Mnemonic}
   import Satoxi.Encoding, only: [decode: 2]
 
   defstruct version: nil,
@@ -79,7 +79,7 @@ defmodule Satoxi.Keys.ExtKey do
   Generates and returns a new random `t:Satoxi.Keys.ExtKey.t/0`.
   """
   @spec new() :: t()
-  def new(), do: from_seed!(:crypto.strong_rand_bytes(64))
+  def new, do: from_seed!(:crypto.strong_rand_bytes(64))
 
   @doc """
   Generates and returns a new `t:Satoxi.Keys.ExtKey.t/0` from the given binary seed.
@@ -95,20 +95,20 @@ defmodule Satoxi.Keys.ExtKey do
     encoding = Keyword.get(opts, :encoding)
     version = @privkey_version_bytes[Satoxi.network()]
 
-    with {:ok, seed} when bit_size(seed) >= 128 and bit_size(seed) <= 512 <-
-           decode(seed, encoding) do
-      <<d::binary-32, chain_code::binary-32>> = Hash.sha512_hmac(seed, "Bitcoin seed")
-      privkey = PrivKey.from_binary!(d)
-      pubkey = PubKey.from_privkey(privkey)
+    case decode(seed, encoding) do
+      {:ok, seed} when bit_size(seed) >= 128 and bit_size(seed) <= 512 ->
+        <<d::binary-32, chain_code::binary-32>> = Hash.sha512_hmac(seed, "Bitcoin seed")
+        privkey = PrivKey.from_binary!(d)
+        pubkey = PubKey.from_privkey(privkey)
 
-      {:ok,
-       struct(__MODULE__,
-         version: version,
-         chain_code: chain_code,
-         privkey: privkey,
-         pubkey: pubkey
-       )}
-    else
+        {:ok,
+         struct(__MODULE__,
+           version: version,
+           chain_code: chain_code,
+           privkey: privkey,
+           pubkey: pubkey
+         )}
+
       {:ok, seed} ->
         {:error, {:invalid_seed, byte_size(seed)}}
 
@@ -179,32 +179,32 @@ defmodule Satoxi.Keys.ExtKey do
   def from_string(<<"xprv", _::binary>> = xprv) do
     <<version_byte, prefix::binary>> = version = @privkey_version_bytes[Satoxi.network()]
 
-    with {:ok, <<^version_byte, data::binary>>} when byte_size(data) == 77 <-
-           ExBase58.decode_check(xprv) do
-      <<
-        ^prefix::binary-3,
-        depth::8,
-        fingerprint::binary-4,
-        child_index::32,
-        chain_code::binary-32,
-        0::8,
-        d::binary
-      >> = data
+    case ExBase58.decode_check(xprv) do
+      {:ok, <<^version_byte, data::binary>>} when byte_size(data) == 77 ->
+        <<
+          ^prefix::binary-3,
+          depth::8,
+          fingerprint::binary-4,
+          child_index::32,
+          chain_code::binary-32,
+          0::8,
+          d::binary
+        >> = data
 
-      privkey = PrivKey.from_binary!(d)
-      pubkey = PubKey.from_privkey(privkey)
+        privkey = PrivKey.from_binary!(d)
+        pubkey = PubKey.from_privkey(privkey)
 
-      {:ok,
-       struct(__MODULE__,
-         version: version,
-         depth: depth,
-         fingerprint: fingerprint,
-         child_index: child_index,
-         chain_code: chain_code,
-         privkey: privkey,
-         pubkey: pubkey
-       )}
-    else
+        {:ok,
+         struct(__MODULE__,
+           version: version,
+           depth: depth,
+           fingerprint: fingerprint,
+           child_index: child_index,
+           chain_code: chain_code,
+           privkey: privkey,
+           pubkey: pubkey
+         )}
+
       _error ->
         {:error, :invalid_xprv}
     end
@@ -213,29 +213,29 @@ defmodule Satoxi.Keys.ExtKey do
   def from_string(<<"xpub", _::binary>> = xprv) do
     <<version_byte, prefix::binary>> = version = @pubkey_version_bytes[Satoxi.network()]
 
-    with {:ok, <<^version_byte, data::binary>>} when byte_size(data) == 77 <-
-           ExBase58.decode_check(xprv) do
-      <<
-        ^prefix::binary-3,
-        depth::8,
-        fingerprint::binary-4,
-        child_index::32,
-        chain_code::binary-32,
-        pubkey::binary
-      >> = data
+    case ExBase58.decode_check(xprv) do
+      {:ok, <<^version_byte, data::binary>>} when byte_size(data) == 77 ->
+        <<
+          ^prefix::binary-3,
+          depth::8,
+          fingerprint::binary-4,
+          child_index::32,
+          chain_code::binary-32,
+          pubkey::binary
+        >> = data
 
-      pubkey = PubKey.from_binary!(pubkey)
+        pubkey = PubKey.from_binary!(pubkey)
 
-      {:ok,
-       struct(__MODULE__,
-         version: version,
-         depth: depth,
-         fingerprint: fingerprint,
-         child_index: child_index,
-         chain_code: chain_code,
-         pubkey: pubkey
-       )}
-    else
+        {:ok,
+         struct(__MODULE__,
+           version: version,
+           depth: depth,
+           fingerprint: fingerprint,
+           child_index: child_index,
+           chain_code: chain_code,
+           pubkey: pubkey
+         )}
+
       _error ->
         {:error, :invalid_xpub}
     end

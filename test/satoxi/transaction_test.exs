@@ -4,8 +4,8 @@ defmodule Satoxi.TransactionTest do
   alias Satoxi.Script
   alias Satoxi.Transaction
   alias Satoxi.Transaction.Input
-  alias Satoxi.Transaction.Output
   alias Satoxi.Transaction.OutPoint
+  alias Satoxi.Transaction.Output
   alias Satoxi.Transaction.Witness
 
   doctest Transaction
@@ -21,21 +21,21 @@ defmodule Satoxi.TransactionTest do
       assert {:ok, tx} = Transaction.from_binary(@legacy_tx_hex, encoding: :hex)
       assert length(tx.inputs) == 1
       assert length(tx.outputs) == 1
-      refute Transaction.is_coinbase?(tx)
+      refute Transaction.coinbase?(tx)
     end
 
     test "parses hex encoded coinbase tx" do
       assert {:ok, tx} = Transaction.from_binary(@coinbase_tx_hex, encoding: :hex)
       assert length(tx.inputs) == 1
       assert length(tx.outputs) == 1
-      assert Transaction.is_coinbase?(tx)
+      assert Transaction.coinbase?(tx)
     end
 
     test "parses hex encoded segwit tx" do
       assert {:ok, tx} = Transaction.from_binary(@segwit_tx_hex, encoding: :hex)
       assert length(tx.inputs) == 1
       assert length(tx.outputs) == 2
-      assert Transaction.is_segwit?(tx)
+      assert Transaction.segwit?(tx)
 
       # Check witness data was parsed
       [input] = tx.inputs
@@ -44,27 +44,27 @@ defmodule Satoxi.TransactionTest do
     end
   end
 
-  describe "Transaction.is_coinbase?/1" do
+  describe "Transaction.coinbase?/1" do
     test "returns true if coinbase" do
       assert {:ok, tx} = Transaction.from_binary(@coinbase_tx_hex, encoding: :hex)
-      assert Transaction.is_coinbase?(tx)
+      assert Transaction.coinbase?(tx)
     end
 
     test "returns false if not coinbase" do
       assert {:ok, tx} = Transaction.from_binary(@legacy_tx_hex, encoding: :hex)
-      refute Transaction.is_coinbase?(tx)
+      refute Transaction.coinbase?(tx)
     end
   end
 
-  describe "Transaction.is_segwit?/1" do
+  describe "Transaction.segwit?/1" do
     test "returns false for legacy transaction" do
       {:ok, tx} = Transaction.from_binary(@legacy_tx_hex, encoding: :hex)
-      refute Transaction.is_segwit?(tx)
+      refute Transaction.segwit?(tx)
     end
 
     test "returns true for segwit transaction" do
       {:ok, tx} = Transaction.from_binary(@segwit_tx_hex, encoding: :hex)
-      assert Transaction.is_segwit?(tx)
+      assert Transaction.segwit?(tx)
     end
 
     test "returns false for transaction with empty witness" do
@@ -73,7 +73,7 @@ defmodule Satoxi.TransactionTest do
         outputs: []
       }
 
-      refute Transaction.is_segwit?(tx)
+      refute Transaction.segwit?(tx)
     end
 
     test "returns true if any input has witness data" do
@@ -85,7 +85,7 @@ defmodule Satoxi.TransactionTest do
         outputs: []
       }
 
-      assert Transaction.is_segwit?(tx)
+      assert Transaction.segwit?(tx)
     end
   end
 
@@ -260,7 +260,7 @@ defmodule Satoxi.TransactionTest do
         ],
         outputs: [
           %Output{
-            satoshis: 50000,
+            satoshis: 50_000,
             script: %Script{chunks: [<<0x00>>, :binary.copy(<<0xCD>>, 20)]}
           }
         ],

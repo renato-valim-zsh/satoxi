@@ -34,8 +34,8 @@ defmodule Satoxi.Contract.P2PKH do
   """
   use Satoxi.Contract
 
-  alias Satoxi.Keys.{PubKey, KeyPair}
   alias Satoxi.Address.Legacy
+  alias Satoxi.Keys.{KeyPair, PubKey}
 
   @impl Satoxi.Contract
   def locking_script(ctx, %{address: %Legacy{} = address}) do

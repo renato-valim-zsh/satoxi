@@ -238,8 +238,8 @@ defmodule Satoxi.Contract do
   """
   @spec to_witness(t()) :: list(binary())
   def to_witness(%__MODULE__{mfa: {mod, _fun, [params]}} = contract) do
-    if is_segwit?(contract) do
-      apply(mod, :witness_script, [contract, params])
+    if segwit?(contract) do
+      mod.witness_script(contract, params)
     else
       []
     end
@@ -248,8 +248,8 @@ defmodule Satoxi.Contract do
   @doc """
   Returns true if the contract is a SegWit contract (has witness data).
   """
-  @spec is_segwit?(t()) :: boolean()
-  def is_segwit?(%__MODULE__{mfa: {mod, _fun, _args}}) do
+  @spec segwit?(t()) :: boolean()
+  def segwit?(%__MODULE__{mfa: {mod, _fun, _args}}) do
     function_exported?(mod, :witness_script, 2)
   end
 

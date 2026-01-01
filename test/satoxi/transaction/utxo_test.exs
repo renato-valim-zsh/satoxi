@@ -3,8 +3,8 @@ defmodule Satoxi.Transaction.UTXOTest do
 
   alias Satoxi.Script
   alias Satoxi.Transaction
-  alias Satoxi.Transaction.Output
   alias Satoxi.Transaction.OutPoint
+  alias Satoxi.Transaction.Output
   alias Satoxi.Transaction.UTXO
 
   @utxo %UTXO{
@@ -15,7 +15,7 @@ defmodule Satoxi.Transaction.UTXOTest do
       vout: 0
     },
     output: %Output{
-      satoshis: 15399,
+      satoshis: 15_399,
       script: %Script{
         chunks: [
           :OP_DUP,
@@ -37,7 +37,7 @@ defmodule Satoxi.Transaction.UTXOTest do
                UTXO.from_params(%{
                  "txid" => "5e3014372338f079f005eedc85359e4d96b8440e7dbeb8c35c4182e0c19a1a12",
                  "vout" => 0,
-                 "satoshis" => 15399,
+                 "satoshis" => 15_399,
                  "script" => "76a91410bdcba3041b5e5517a58f2e405293c14a7c70c188ac"
                })
 
@@ -49,7 +49,7 @@ defmodule Satoxi.Transaction.UTXOTest do
                UTXO.from_params(%{
                  "txid" => "5e3014372338f079f005eedc85359e4d96b8440e7dbeb8c35c4182e0c19a1a12",
                  "outputIndex" => 0,
-                 "amount" => 15399,
+                 "amount" => 15_399,
                  "script" => "76a91410bdcba3041b5e5517a58f2e405293c14a7c70c188ac"
                })
 
@@ -70,7 +70,7 @@ defmodule Satoxi.Transaction.UTXOTest do
       assert UTXO.from_params!(%{
                "txid" => "5e3014372338f079f005eedc85359e4d96b8440e7dbeb8c35c4182e0c19a1a12",
                "vout" => 0,
-               "satoshis" => 15399,
+               "satoshis" => 15_399,
                "script" => "76a91410bdcba3041b5e5517a58f2e405293c14a7c70c188ac"
              }) == @utxo
     end
@@ -88,12 +88,12 @@ defmodule Satoxi.Transaction.UTXOTest do
   describe "UTXO.from_tx/2" do
     test "creates UTXO from existing tx" do
       script = %Script{chunks: [:OP_12, :OP_EQUAL]}
-      tx = Transaction.add_output(%Transaction{}, %Output{satoshis: 12345, script: script})
+      tx = Transaction.add_output(%Transaction{}, %Output{satoshis: 12_345, script: script})
 
       assert %UTXO{
                outpoint: %OutPoint{vout: 0},
                output: %Output{
-                 satoshis: 12345,
+                 satoshis: 12_345,
                  script: %Script{chunks: [:OP_12, :OP_EQUAL]}
                }
              } = UTXO.from_tx(tx, 0)

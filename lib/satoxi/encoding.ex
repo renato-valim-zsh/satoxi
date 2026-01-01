@@ -10,6 +10,8 @@ defmodule Satoxi.Encoding do
   and other encodings commonly used in Bitcoin applications.
   """
 
+  alias Satoxi.Encoding.VarInt
+
   @typedoc "Binary encoding format"
   @type encoding() :: :base64 | :hex | :var_int
 
@@ -209,7 +211,7 @@ defmodule Satoxi.Encoding do
   @spec encode(binary() | integer(), encoding()) :: binary()
   def encode(data, :base64), do: Base.encode64(data)
   def encode(data, :hex), do: Base.encode16(data, case: :lower)
-  def encode(data, :var_int) when is_integer(data), do: Satoxi.Encoding.VarInt.encode(data)
+  def encode(data, :var_int) when is_integer(data), do: VarInt.encode(data)
   def encode(data, _), do: data
 
   @doc """
@@ -245,7 +247,7 @@ defmodule Satoxi.Encoding do
   end
 
   def decode(data, :var_int) when is_binary(data) do
-    with {:error, _error} <- Satoxi.Encoding.VarInt.decode(data) do
+    with {:error, _error} <- VarInt.decode(data) do
       {:error, {:decoding_failed, :var_int, data}}
     end
   end

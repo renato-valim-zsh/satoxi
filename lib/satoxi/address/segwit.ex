@@ -21,7 +21,7 @@ defmodule Satoxi.Address.SegWit do
       iex> address.type
       :p2wpkh
   """
-  alias Satoxi.{Hash, Encoding.Bech32, Keys.PubKey}
+  alias Satoxi.{Encoding.Bech32, Hash, Keys.PubKey}
 
   defstruct [:witness_program, :witness_version, :type]
 
@@ -225,7 +225,9 @@ defmodule Satoxi.Address.SegWit do
   end
 
   defimpl Satoxi.Address.Encoding do
-    def to_string(address), do: Satoxi.Address.SegWit.to_string(address)
-    def get_hash(address), do: Satoxi.Address.SegWit.get_witness_program(address)
+    alias Satoxi.Address.SegWit
+
+    def to_string(address), do: SegWit.to_string(address)
+    def get_hash(address), do: SegWit.get_witness_program(address)
   end
 end

@@ -2,6 +2,8 @@ defmodule Satoxi.Keys.ExtKeyTest do
   use ExUnit.Case, async: true
 
   alias Satoxi.Keys.ExtKey
+  alias Satoxi.Keys.PrivKey
+  alias Satoxi.Keys.PubKey
   alias Satoxi.Mnemonic
 
   @test_words "decorate autumn pulp gas emerge just clay initial toss raccoon festival series"
@@ -168,8 +170,8 @@ defmodule Satoxi.Keys.ExtKeyTest do
       ]
       |> Enum.each(fn {path, pubkey, wif} ->
         assert %ExtKey{} = node = ExtKey.derive(master, path)
-        assert Satoxi.Keys.PubKey.to_binary(node.pubkey, encoding: :hex) == pubkey
-        assert Satoxi.Keys.PrivKey.to_wif!(node.privkey) == wif
+        assert PubKey.to_binary(node.pubkey, encoding: :hex) == pubkey
+        assert PrivKey.to_wif!(node.privkey) == wif
       end)
     end
 
@@ -182,7 +184,7 @@ defmodule Satoxi.Keys.ExtKeyTest do
       ]
       |> Enum.each(fn {path, pubkey} ->
         assert %ExtKey{} = node = ExtKey.derive(master, path)
-        assert Satoxi.Keys.PubKey.to_binary(node.pubkey, encoding: :hex) == pubkey
+        assert PubKey.to_binary(node.pubkey, encoding: :hex) == pubkey
       end)
     end
 
@@ -207,8 +209,8 @@ defmodule Satoxi.Keys.ExtKeyTest do
       ]
       |> Enum.each(fn {path, pubkey, wif} ->
         assert %ExtKey{} = node = ExtKey.derive(account, path)
-        assert Satoxi.Keys.PubKey.to_binary(node.pubkey, encoding: :hex) == pubkey
-        assert Satoxi.Keys.PrivKey.to_wif!(node.privkey) == wif
+        assert PubKey.to_binary(node.pubkey, encoding: :hex) == pubkey
+        assert PrivKey.to_wif!(node.privkey) == wif
       end)
     end
 
@@ -226,7 +228,7 @@ defmodule Satoxi.Keys.ExtKeyTest do
       ]
       |> Enum.each(fn {path, pubkey} ->
         assert %ExtKey{} = node = ExtKey.derive(account, path)
-        assert Satoxi.Keys.PubKey.to_binary(node.pubkey, encoding: :hex) == pubkey
+        assert PubKey.to_binary(node.pubkey, encoding: :hex) == pubkey
       end)
     end
 

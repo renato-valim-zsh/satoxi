@@ -126,10 +126,11 @@ defmodule Satoxi.Transaction.Input do
     @impl true
     def parse(input, data) do
       with {:ok, outpoint, data} <- Serializable.parse(%OutPoint{}, data),
-           {:ok, script, data} <- parse_varint_data(data),
-           <<sequence::little-32, rest::binary>> = data do
+           {:ok, script, data} <- parse_varint_data(data) do
+        <<sequence::little-32, rest::binary>> = data
+
         script =
-          case OutPoint.is_null?(outpoint) do
+          case OutPoint.null?(outpoint) do
             false -> Script.from_binary!(script)
             true -> %Script{coinbase: script}
           end

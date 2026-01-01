@@ -5,9 +5,9 @@ defmodule Satoxi.Transaction.UTXO do
   An UTXO consists of a `t:Satoxi.Transaction.OutPoint.t/0` and the `t:Satoxi.Transaction.Output.t/0` itself.
   UTXOs are used in the `t:Satoxi.Transaction.Builder.t/0` module to create transaction inputs.
   """
-  alias Satoxi.Transaction.OutPoint
   alias Satoxi.Script
   alias Satoxi.Transaction
+  alias Satoxi.Transaction.OutPoint
   alias Satoxi.Transaction.Output
 
   import Satoxi.Encoding, only: [decode: 2]

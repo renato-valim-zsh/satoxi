@@ -3,6 +3,7 @@ defmodule Satoxi.Address.NestedTest do
 
   alias Satoxi.Address.Encoding
   alias Satoxi.Address.Nested
+  alias Satoxi.Address.SegWit
   alias Satoxi.Hash
   alias Satoxi.Keys.PubKey
 
@@ -122,17 +123,17 @@ defmodule Satoxi.Address.NestedTest do
   describe "comparison with native SegWit" do
     test "nested and native segwit have same pubkey_hash" do
       nested = Nested.from_pubkey(@pubkey_bin)
-      segwit = Satoxi.Address.SegWit.from_pubkey(@pubkey_bin)
+      segwit = SegWit.from_pubkey(@pubkey_bin)
 
       assert nested.pubkey_hash == segwit.witness_program
     end
 
     test "nested produces P2SH address while native produces bech32" do
       nested = Nested.from_pubkey(@pubkey_bin)
-      segwit = Satoxi.Address.SegWit.from_pubkey(@pubkey_bin)
+      segwit = SegWit.from_pubkey(@pubkey_bin)
 
       nested_str = Nested.to_string(nested)
-      segwit_str = Satoxi.Address.SegWit.to_string(segwit)
+      segwit_str = SegWit.to_string(segwit)
 
       assert String.starts_with?(nested_str, "3")
       assert String.starts_with?(segwit_str, "bc1q")

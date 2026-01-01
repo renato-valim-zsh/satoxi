@@ -39,7 +39,7 @@ defmodule Satoxi.Address do
       address = Satoxi.Address.from_pubkey(pubkey, type: :p2wpkh)
   """
 
-  alias Satoxi.Address.{Legacy, P2SH, SegWit, Nested, Encoding}
+  alias Satoxi.Address.{Encoding, Legacy, Nested, P2SH, SegWit}
   alias Satoxi.Keys.PubKey
 
   @typedoc "Any supported address type"
@@ -102,22 +102,20 @@ defmodule Satoxi.Address do
   """
   @spec from_string(address_str()) :: {:ok, t()} | {:error, term()}
   def from_string(address) when is_binary(address) do
-    cond do
-      bech32_address?(address) ->
-        SegWit.from_string(address)
+    if bech32_address?(address) do
+      SegWit.from_string(address)
+    else
+      # Try Legacy first, then P2SH
+      case Legacy.from_string(address) do
+        {:ok, _} = result ->
+          result
 
-      true ->
-        # Try Legacy first, then P2SH
-        case Legacy.from_string(address) do
-          {:ok, _} = result ->
-            result
+        {:error, {:invalid_version_byte, _, _}} ->
+          P2SH.from_string(address)
 
-          {:error, {:invalid_version_byte, _, _}} ->
-            P2SH.from_string(address)
-
-          {:error, _} = error ->
-            error
-        end
+        {:error, _} = error ->
+          error
+      end
     end
   end
 
