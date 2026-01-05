@@ -89,7 +89,8 @@ defmodule Satoxi.MixProject do
       {:curvy, "~> 0.3"},
       {:ex_doc, "~> 0.25", only: :dev, runtime: false},
       {:jason, "~> 1.4.4", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}
     ]
   end
 
