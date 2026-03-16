@@ -97,7 +97,7 @@ defmodule Satoxi.MixProject do
   defp package do
     [
       name: "satoxi",
-      files: ~w(lib .formatter.exs mix.exs README.md),
+      files: ~w(lib priv .formatter.exs mix.exs README.md LICENSE),
       licenses: ["MIT"],
       maintainers: ["Renato Valim"],
       links: %{"GitHub" => "https://github.com/renato-valim-zsh/satoxi"}
